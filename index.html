@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ANGELLUS — Argentine Premium Angus Beef</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ── RESET ── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:none;border:none;background:none}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ── TOKENS ── */
+:root{
+  --gold:#C4973F;
+  --gold-hi:#D4A853;
+  --gold-lo:#E8D5A3;
+  --gold-dim:rgba(196,151,63,.12);
+  --black:#050505;
+  --char:#0D0D0D;
+  --dark:#111;
+  --mid:#1A1A1A;
+  --mid2:#222;
+  --text:#EDE8E0;
+  --text2:#C8BFB2;
+  --mute:#706860;
+  --edge:rgba(196,151,63,.13);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Montserrat',sans-serif;
+  --spring:cubic-bezier(0.16,1,0.3,1);
+  --out:cubic-bezier(0,0,.2,1);
+}
+
+/* ── BASE ── */
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--text);font-family:var(--sans);font-weight:300;overflow-x:hidden;cursor:none}
+
+/* ── CURSOR ── */
+#cur,#cur-o{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cur{width:7px;height:7px;background:var(--gold);transition:width .4s var(--spring),height .4s var(--spring),background .3s,border-radius .4s}
+#cur-o{width:36px;height:36px;border:1px solid rgba(196,151,63,.45);transition:all .5s var(--spring)}
+body.ch #cur{width:50px;height:50px;background:rgba(196,151,63,.1);border-radius:50%}
+body.ch #cur-o{opacity:0}
+body.ct #cur{width:2px;height:24px;border-radius:2px}
+
+/* ── PROGRESS ── */
+#prog{position:fixed;top:0;left:0;height:1.5px;background:linear-gradient(90deg,var(--gold),var(--gold-lo));z-index:9998;width:0}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:2rem 5rem;border-bottom:1px solid transparent;transition:padding .5s var(--spring),background .5s,border-color .5s}
+nav.on{padding:1.1rem 5rem;background:rgba(5,5,5,.94);backdrop-filter:blur(24px) saturate(160%);border-bottom-color:var(--edge)}
+.nav-logo{font-family:var(--serif);font-size:28px;font-weight:400;letter-spacing:.48em;color:var(--gold);position:relative}
+.nav-logo::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--gold);transition:width .4s var(--spring)}
+.nav-logo:hover::after{width:100%}
+.nav-links{display:flex;gap:3rem;list-style:none}
+.nav-links a{font-size:9.5px;letter-spacing:.24em;color:var(--mute);text-transform:uppercase;transition:color .3s;position:relative;padding:14px 8px;margin:-14px -8px}
+.nav-links a::after{content:'';position:absolute;bottom:5px;left:0;width:0;height:1px;background:var(--gold);transition:width .35s var(--spring)}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a:hover::after{width:100%}
+.nav-r{display:flex;align-items:center;gap:1.5rem}
+.lang-wrap{display:flex;align-items:center;border:.5px solid rgba(196,151,63,.28);border-radius:2px;overflow:hidden}
+.lang-btn{font-size:9px;letter-spacing:.22em;color:var(--mute);cursor:none;text-transform:uppercase;padding:7px 12px;font-family:var(--sans);font-weight:400;transition:all .25s;line-height:1}
+.lang-btn:hover{color:var(--gold);background:rgba(196,151,63,.06)}
+.lang-btn.on{color:var(--black);background:var(--gold)}
+.lang-div{width:.5px;height:20px;background:rgba(196,151,63,.25)}
+.nav-cta{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--black);background:var(--gold);padding:10px 24px;font-family:var(--sans);font-weight:500;position:relative;overflow:hidden;transition:letter-spacing .3s}
+.nav-cta::before{content:'';position:absolute;inset:0;background:var(--gold-lo);transform:translateX(-101%);transition:transform .45s var(--spring)}
+.nav-cta:hover{letter-spacing:.31em}
+.nav-cta:hover::before{transform:translateX(0)}
+.nav-cta span{position:relative;z-index:1}
+.ham{display:none;flex-direction:column;gap:5px;padding:4px}
+.ham i{display:block;width:24px;height:1px;background:var(--gold);transition:all .35s var(--spring);transform-origin:center}
+.ham.on i:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.ham.on i:nth-child(2){opacity:0;transform:scaleX(0)}
+.ham.on i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.mob{position:fixed;inset:0;background:var(--black);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.75rem;opacity:0;pointer-events:none;transition:opacity .5s var(--spring)}
+.mob.on{opacity:1;pointer-events:all}
+.mob a{font-family:var(--serif);font-size:clamp(32px,6vw,54px);font-weight:300;color:var(--text);letter-spacing:.04em;transition:color .3s}
+.mob a:hover{color:var(--gold)}
+
+/* ── REVEAL ── */
+.rv{opacity:0;transform:translateY(34px);transition:opacity .95s var(--spring),transform .95s var(--spring)}
+.rv.go{opacity:1;transform:none}
+.rvl{opacity:0;transform:translateX(-44px);transition:opacity .95s var(--spring),transform .95s var(--spring)}
+.rvl.go{opacity:1;transform:none}
+.rvr{opacity:0;transform:translateX(44px);transition:opacity .95s var(--spring),transform .95s var(--spring)}
+.rvr.go{opacity:1;transform:none}
+.clip{clip-path:inset(0 100% 0 0);transition:clip-path 1.3s var(--spring)}
+.clip.go{clip-path:inset(0 0% 0 0)}
+.d1{transition-delay:.1s!important}.d2{transition-delay:.22s!important}
+.d3{transition-delay:.34s!important}.d4{transition-delay:.46s!important}
+.d5{transition-delay:.58s!important}.d6{transition-delay:.7s!important}
+.d7{transition-delay:.82s!important}
+
+/* ── SHARED ── */
+.wrap{max-width:1300px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.5em;color:var(--gold);text-transform:uppercase;margin-bottom:1.75rem;display:flex;align-items:center;gap:1rem}
+.eyebrow::before{content:'';width:28px;height:1px;background:var(--gold);opacity:.55;flex-shrink:0}
+.ey-center{justify-content:center}
+.ey-center::after{content:'';width:28px;height:1px;background:var(--gold);opacity:.55;flex-shrink:0}
+h2.ttl{font-family:var(--serif);font-size:clamp(40px,5.5vw,76px);font-weight:300;line-height:1.06;color:var(--text);margin-bottom:2.25rem;letter-spacing:-.01em}
+h2.ttl em{font-style:italic;color:var(--gold-lo)}
+.body{font-size:16px;line-height:2.15;color:var(--mute);font-weight:300}
+.rule{width:44px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);opacity:.65;margin:2.5rem 0}
+.btn-p{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--black);background:var(--gold);padding:15px 36px;font-family:var(--sans);font-weight:500;position:relative;overflow:hidden;transition:letter-spacing .3s;display:inline-block}
+.btn-p::before{content:'';position:absolute;inset:0;background:var(--gold-lo);transform:translateX(-101%);transition:transform .45s var(--spring)}
+.btn-p:hover{letter-spacing:.36em}
+.btn-p:hover::before{transform:translateX(0)}
+.btn-p span,.btn-g span{position:relative;z-index:1}
+.btn-g{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);background:transparent;padding:15px 36px;border:1px solid rgba(196,151,63,.42);font-family:var(--sans);font-weight:400;transition:all .35s var(--spring);position:relative;overflow:hidden;display:inline-block}
+.btn-g::before{content:'';position:absolute;inset:0;background:rgba(196,151,63,.07);transform:translateX(-101%);transition:transform .45s var(--spring)}
+.btn-g:hover{border-color:var(--gold);letter-spacing:.36em}
+.btn-g:hover::before{transform:translateX(0)}
+
+/* ── HERO ── */
+#hero{height:100svh;min-height:600px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#040404}
+.hero-bg{position:absolute;inset:-8%;background:url('images/Design ohne Titel.png') center/cover no-repeat;opacity:.55;will-change:transform}
+.hero-fade{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,transparent 20%,rgba(4,4,4,.72) 100%),linear-gradient(to bottom,rgba(4,4,4,.6) 0%,rgba(4,4,4,.05) 40%,rgba(4,4,4,.92) 100%)}
+.hero-grain{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");opacity:.5;pointer-events:none}
+.hero-c{position:relative;text-align:center;padding:4.5rem 2rem 1rem;max-width:1000px}
+.hero-eye{font-size:15px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;margin-bottom:.75rem;opacity:0;transform:translateY(16px);animation:hup 1s var(--spring) .3s forwards}
+.hero-h1{font-family:var(--serif);font-size:clamp(44px,7vw,96px);font-weight:300;line-height:1.01;color:#fff;margin-bottom:1rem;letter-spacing:-.015em;opacity:0;transform:translateY(28px);animation:hup 1.1s var(--spring) .55s forwards}
+.hero-h1 em{font-style:italic;color:var(--gold-lo);font-weight:300}
+.hero-line{width:1px;height:0;background:linear-gradient(to bottom,var(--gold),transparent);margin:0 auto 1.25rem;animation:hline .8s var(--spring) 1.1s forwards}
+@keyframes hline{to{height:40px}}
+.hero-sub{font-size:16px;letter-spacing:.05em;color:rgba(237,232,224,.56);max-width:490px;margin:0 auto 1.25rem;line-height:1.8;font-weight:300;opacity:0;transform:translateY(16px);animation:hup 1s var(--spring) 1.05s forwards}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;opacity:0;transform:translateY(16px);animation:hup 1s var(--spring) 1.28s forwards}
+@keyframes hup{to{opacity:1;transform:none}}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:hup 1s var(--spring) 1.9s forwards}
+.hero-scroll span{font-size:8px;letter-spacing:.42em;color:var(--mute);text-transform:uppercase}
+.sline{width:1px;height:46px;background:linear-gradient(to bottom,var(--gold),transparent);animation:sani 2.3s ease-in-out infinite}
+@keyframes sani{0%{opacity:0;transform:scaleY(0);transform-origin:top}50%{opacity:1;transform:scaleY(1)}100%{opacity:0;transform:scaleY(1);transform-origin:bottom}}
+
+/* ── TICKER ── */
+.tick{overflow:hidden;background:var(--gold);padding:13px 0;white-space:nowrap}
+.tick-t{display:inline-flex;animation:tick 32s linear infinite}
+.tick-i{font-size:9px;letter-spacing:.38em;text-transform:uppercase;color:var(--black);font-weight:500;padding:0 2.75rem}
+.tick-d{color:rgba(0,0,0,.28);margin:0 .2rem}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ── EDITORIAL STRIP ── */
+.ed-strip{position:relative;overflow:hidden}
+.ed-strip img{position:relative;display:block;width:100%;height:auto;transition:transform 1.2s ease}
+.ed-strip:hover img{transform:scale(1.04)}
+.ed-strip-fade{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(4,4,4,.55) 0%,rgba(4,4,4,.1) 40%,rgba(4,4,4,.1) 60%,rgba(4,4,4,.55) 100%)}
+.ed-strip--fixed{height:65vh;min-height:420px}
+.ed-strip--fixed img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+
+/* ── THE LAND ── */
+#land{position:relative;height:100vh;min-height:640px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.land-bg{position:absolute;inset:-8%;background:url('images/AdobeStock_883435481.jpeg') center/cover no-repeat;will-change:transform}
+.land-fade{position:absolute;inset:0;background:linear-gradient(to right,rgba(5,5,5,.85) 0%,rgba(5,5,5,.45) 55%,rgba(5,5,5,.25) 100%),linear-gradient(to top,rgba(5,5,5,.9) 0%,transparent 50%)}
+#land::after{content:'';position:absolute;bottom:0;left:0;right:0;height:220px;background:linear-gradient(to bottom,transparent,var(--char));pointer-events:none;z-index:2}
+.land-c{position:relative;padding:0 5rem 5rem;max-width:1300px}
+.land-tag{font-size:12px;letter-spacing:.5em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.land-tag::before{content:'';width:28px;height:1px;background:var(--gold);opacity:.6}
+.land-h{font-family:var(--serif);font-size:clamp(44px,7vw,92px);font-weight:300;line-height:1.04;color:#fff;letter-spacing:-.01em;max-width:820px;margin-bottom:1.5rem}
+.land-h em{font-style:italic;color:var(--gold-lo)}
+.land-p{font-size:16px;line-height:2.1;color:rgba(237,232,224,.6);max-width:480px;margin-bottom:4rem;font-weight:300}
+.land-stats{display:flex;gap:0;border-top:1px solid rgba(196,151,63,.18)}
+.land-stat{padding:2rem 3rem 0 0;border-right:1px solid rgba(196,151,63,.12);margin-right:3rem}
+.land-stat:last-child{border-right:none;margin-right:0}
+.land-n{font-family:var(--serif);font-size:42px;font-weight:300;color:var(--gold);line-height:1;letter-spacing:-.02em}
+.land-l{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#EDE8E0;margin-top:.5rem}
+
+/* ── HERITAGE ── */
+#heritage{background:var(--char);padding:9rem 5rem}
+.her-g{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center}
+.her-img{position:relative;overflow:hidden}
+.her-img img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:brightness(.75) sepia(.08);transition:transform .9s var(--spring),filter .9s;display:block}
+.her-img:hover img{transform:scale(1.04);filter:brightness(.85) sepia(.03)}
+.her-frame{position:absolute;inset:-1px;border:1px solid var(--edge);pointer-events:none}
+.her-q{font-family:var(--serif);font-size:22px;font-style:italic;color:var(--gold-lo);line-height:1.65;border-left:1px solid rgba(196,151,63,.35);padding-left:1.75rem;margin:2.75rem 0;font-weight:300}
+
+/* ── THE ANIMAL ── */
+#animal{position:relative;min-height:100vh;display:flex;align-items:stretch;overflow:hidden}
+.animal-bg{position:absolute;inset:-6%;background:url('images/AdobeStock_352904242.jpeg') center/cover no-repeat;will-change:transform;filter:brightness(.35) sepia(.05)}
+.animal-fade{position:absolute;inset:0;background:linear-gradient(to left,rgba(5,5,5,.95) 0%,rgba(5,5,5,.5) 50%,rgba(5,5,5,.1) 100%)}
+.animal-c{position:relative;display:flex;align-items:center;padding:9rem 5rem;max-width:1300px;margin:0 auto;width:100%}
+.animal-content{margin-left:auto;max-width:540px}
+.animal-traits{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:3.5rem}
+.trait{background:rgba(196,151,63,.05);border:1px solid rgba(196,151,63,.1);padding:1.75rem 1.5rem;transition:border-color .35s,background .35s}
+.trait:hover{border-color:rgba(196,151,63,.3);background:rgba(196,151,63,.08)}
+.trait-icon{width:28px;height:1px;background:var(--gold);opacity:.5;margin-bottom:1.25rem}
+.trait-t{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;font-weight:500}
+.trait-d{font-size:13px;line-height:1.85;color:var(--mute)}
+
+/* ── PHILOSOPHY ── */
+#philosophy{background:var(--black);padding:9rem 5rem}
+.phil-hd{display:grid;grid-template-columns:1fr 1fr;gap:6rem;margin-bottom:5rem;align-items:end}
+.phil-g{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.p-card{background:var(--char);padding:3rem 2.25rem;border-top:1px solid var(--edge);transition:border-top-color .4s,background .4s;position:relative;overflow:hidden}
+.p-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width .5s var(--spring)}
+.p-card:hover::after{width:100%}
+.p-card:hover{border-top-color:var(--gold);background:var(--mid)}
+.p-num{font-family:var(--serif);font-size:60px;font-weight:300;color:rgba(196,151,63,.28);line-height:1;margin-bottom:2rem;letter-spacing:-.02em}
+.p-t{font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;font-weight:500}
+.p-d{font-size:12.5px;line-height:1.95;color:var(--mute)}
+
+/* ── MANIFESTO ── */
+#manifesto{background:var(--dark);padding:10rem 5rem;position:relative;overflow:hidden;text-align:center}
+.mani-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--serif);font-size:clamp(100px,18vw,260px);font-weight:300;color:rgba(196,151,63,.065);white-space:nowrap;pointer-events:none;letter-spacing:.12em;user-select:none}
+.mani-in{position:relative;max-width:900px;margin:0 auto}
+.mani-mark{font-family:var(--serif);font-size:96px;color:var(--gold);opacity:.16;line-height:.55;margin-bottom:2rem;display:block}
+.mani-q{font-family:var(--serif);font-size:clamp(26px,4.5vw,52px);font-weight:300;font-style:italic;color:var(--text);line-height:1.48;letter-spacing:.01em;margin-bottom:2.5rem}
+.mani-a{font-size:9px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);opacity:.62}
+
+/* ── TRACEABILITY ── */
+#trace{background:var(--char);padding:9rem 5rem}
+.trace-g{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:start}
+.t-steps{display:flex;flex-direction:column}
+.t-step{display:flex;gap:2.5rem;align-items:flex-start;padding:2.25rem 0;border-bottom:1px solid rgba(255,255,255,.04);transition:border-color .3s}
+.t-step:first-child{padding-top:0}
+.t-step:last-child{border-bottom:none}
+.t-step:hover{border-bottom-color:var(--edge)}
+.t-n{font-family:var(--serif);font-size:36px;font-weight:300;color:var(--gold);opacity:.28;min-width:50px;line-height:1;letter-spacing:-.02em}
+.t-h{font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--text2);margin-bottom:.65rem;font-weight:500}
+.t-p{font-size:13px;line-height:2;color:var(--mute)}
+
+/* ── PRODUCTS ── */
+#products{background:var(--black);padding:9rem 5rem}
+.prod-hd{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:end;margin-bottom:6rem}
+.cuts{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.cut{background:var(--char);display:flex;flex-direction:column;position:relative;overflow:hidden;transition:background .4s}
+.cut:hover{background:var(--mid)}
+.cut-img{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;background:var(--mid)}
+.cut-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .85s var(--spring),filter .85s;filter:brightness(.78) sepia(.07)}
+.cut:hover .cut-img img{transform:scale(1.07);filter:brightness(.9) sepia(.03)}
+.cut-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,5,.55) 0%,transparent 55%)}
+.cut-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;border:1px dashed rgba(196,151,63,.17)}
+.cut-ph span{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:rgba(196,151,63,.3)}
+.cut-body{padding:2.25rem 2rem;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-bottom:2px solid transparent;transition:border-color .4s}
+.cut:hover .cut-body{border-bottom-color:var(--gold)}
+.cut-tag{font-size:8px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:500}
+.cut-name{font-family:var(--serif);font-size:28px;font-weight:300;color:var(--text);margin-bottom:.2rem;line-height:1.14;letter-spacing:.01em}
+.cut-sub{font-size:10px;letter-spacing:.18em;color:var(--mute);margin-bottom:0;text-transform:uppercase}
+.cut-d{font-size:12px;line-height:1.92;color:var(--mute);max-height:0;overflow:hidden;opacity:0;margin-top:0;transition:max-height .5s var(--spring),opacity .35s,margin-top .35s}
+.cut:hover .cut-d{max-height:200px;opacity:1;margin-top:1.25rem}
+
+/* ── CERTS ── */
+#certs{background:var(--dark);padding:7rem 5rem}
+.cert-hd{text-align:center;margin-bottom:4.5rem}
+.cert-hd h2{font-family:var(--serif);font-size:clamp(32px,4vw,52px);font-weight:300;color:var(--text)}
+.cert-hd h2 em{font-style:italic;color:var(--gold-lo)}
+.cert-g{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.cert{background:var(--char);padding:2.25rem 1.25rem;display:flex;flex-direction:column;align-items:center;text-align:center;border-top:1px solid rgba(196,151,63,.07);transition:border-top-color .4s,background .4s}
+.cert:hover{border-top-color:var(--gold);background:var(--mid)}
+.cert-img{width:62px;height:62px;position:relative;margin-bottom:1.25rem;background:var(--mid);border-radius:3px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.cert-img img{width:100%;height:100%;object-fit:contain;padding:8px;display:none}
+.cert-img img[src]:not([src^="YOUR"]){display:block}
+.cert-img img[src]:not([src^="YOUR"])+.cert-ph{display:none}
+.cert-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border:1px dashed rgba(196,151,63,.16)}
+.cert-ph-i{width:18px;height:18px;border:1px solid rgba(196,151,63,.25);border-radius:50%}
+.cert-l{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text2);font-weight:400;line-height:1.4}
+.cert-s{font-size:9px;letter-spacing:.1em;color:var(--mute);margin-top:3px;text-transform:uppercase}
+
+/* ── DISTRIBUTION ── */
+#dist{background:var(--char);padding:9rem 5rem}
+.dist-g{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center}
+.dist-stats{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:3.5rem}
+.stat{background:var(--mid);padding:2.25rem 1.75rem;border-top:1px solid var(--edge);transition:border-top-color .3s}
+.stat:hover{border-top-color:var(--gold)}
+.stat-n{font-family:var(--serif);font-size:46px;font-weight:300;color:var(--gold);line-height:1;letter-spacing:-.02em}
+.stat-l{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);margin-top:.6rem}
+.dist-img{position:relative;overflow:hidden}
+.dist-img img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:brightness(.55) sepia(.12);display:block;transition:transform .9s var(--spring),filter .9s}
+.dist-img:hover img{transform:scale(1.03);filter:brightness(.65) sepia(.07)}
+.dist-frame{position:absolute;inset:-1px;border:1px solid var(--edge);pointer-events:none}
+
+/* ── PARTNER ── */
+#partner{background:var(--black);padding:9rem 5rem;text-align:center}
+.partner-in{max-width:780px;margin:0 auto}
+.partner-in h2{font-size:clamp(44px,6.5vw,88px)}
+.partner-btns{display:flex;gap:1rem;justify-content:center;margin-top:3.5rem;flex-wrap:wrap}
+.partner-types{display:flex;justify-content:center;flex-wrap:wrap;margin-top:5.5rem;border:1px solid rgba(196,151,63,.07)}
+.pt{padding:1.25rem 2.5rem;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(112,104,96,.5);border-right:1px solid rgba(196,151,63,.07);transition:all .35s}
+.pt:last-child{border-right:none}
+.pt:hover{color:var(--gold);background:rgba(196,151,63,.04)}
+
+/* ── CONTACT ── */
+#contact{background:var(--char);padding:9rem 5rem}
+.con-g{display:grid;grid-template-columns:1fr 1.2fr;gap:7rem}
+.con-det{display:flex;flex-direction:column;gap:1.75rem;margin-top:2.5rem}
+.con-i{display:flex;flex-direction:column;gap:.4rem}
+.con-i span{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--mute)}
+.con-i a{font-size:13px;letter-spacing:.04em;color:var(--gold);transition:color .3s;font-weight:300}
+.con-i a:hover{color:var(--gold-lo)}
+form{display:flex;flex-direction:column;gap:1.75rem}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem}
+.fg{display:flex;flex-direction:column;gap:.6rem}
+.fg label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--mute)}
+.fg input,.fg select,.fg textarea{background:var(--mid);border:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(196,151,63,.18);color:var(--text);padding:14px 18px;font-family:var(--sans);font-size:12px;font-weight:300;outline:none;transition:border-bottom-color .35s,background .35s;-webkit-appearance:none;appearance:none;border-radius:0;width:100%}
+.fg input:focus,.fg select:focus,.fg textarea:focus{background:var(--mid2);border-bottom-color:var(--gold)}
+.csel{position:relative}
+.csel-btn{width:100%;background:var(--mid);border:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(196,151,63,.18);color:var(--mute);padding:14px 44px 14px 18px;font-family:var(--sans);font-size:12px;font-weight:300;outline:none;transition:border-bottom-color .35s,background .35s;text-align:left;display:flex;align-items:center;justify-content:space-between;cursor:none;letter-spacing:.03em}
+.csel.open .csel-btn,.csel-btn:focus{background:var(--mid2);border-bottom-color:var(--gold)}
+.csel-arrow{width:10px;height:6px;flex-shrink:0;stroke:rgba(196,151,63,.65);transition:transform .35s var(--spring)}
+.csel.open .csel-arrow{transform:rotate(180deg)}
+.csel-drop{position:absolute;top:100%;left:0;right:0;background:var(--mid2);border:1px solid rgba(196,151,63,.18);border-top:none;z-index:200;max-height:0;overflow:hidden;opacity:0;pointer-events:none;transition:max-height .4s var(--spring),opacity .3s}
+.csel.open .csel-drop{max-height:300px;opacity:1;pointer-events:all}
+.csel-opt{padding:13px 18px;font-size:9.5px;letter-spacing:.18em;color:var(--mute);cursor:none;transition:color .25s,background .25s;text-transform:uppercase;border-bottom:1px solid rgba(196,151,63,.07)}
+.csel-opt:last-child{border-bottom:none}
+.csel-opt:hover{color:var(--gold);background:rgba(196,151,63,.06)}
+.csel-opt.chosen{color:var(--gold)}
+.csel-val.chosen{color:var(--text)}
+.fg textarea{resize:vertical;min-height:130px}
+.f-sub{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--black);background:var(--gold);padding:15px 36px;font-family:var(--sans);font-weight:500;align-self:flex-start;position:relative;overflow:hidden;transition:letter-spacing .3s}
+.f-sub::before{content:'';position:absolute;inset:0;background:var(--gold-lo);transform:translateX(-101%);transition:transform .45s var(--spring)}
+.f-sub:hover{letter-spacing:.36em}
+.f-sub:hover::before{transform:translateX(0)}
+.f-sub span{position:relative;z-index:1}
+
+/* ── FOOTER ── */
+footer{background:var(--black);border-top:1px solid var(--edge);padding:4rem 5rem}
+.foot-in{max-width:1300px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:2rem}
+.foot-logo{font-family:var(--serif);font-size:17px;letter-spacing:.46em;color:var(--gold)}
+.foot-sub{font-size:9px;letter-spacing:.26em;color:var(--mute);text-transform:uppercase;margin-top:.35rem}
+.foot-links{display:flex;gap:2.5rem}
+.foot-links a{font-size:9px;letter-spacing:.2em;color:var(--mute);text-transform:uppercase;transition:color .3s;position:relative}
+.foot-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .35s var(--spring)}
+.foot-links a:hover{color:var(--gold)}
+.foot-links a:hover::after{width:100%}
+.foot-copy{font-size:9px;letter-spacing:.1em;color:rgba(112,104,96,.3)}
+
+/* ── LEGAL BAR ── */
+.legal-bar{background:#020202;border-top:1px solid rgba(196,151,63,.08);padding:1.1rem 5rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+.legal-links{display:flex;gap:2rem;flex-wrap:wrap}
+.legal-links button{font-family:var(--sans);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(112,104,96,.55);cursor:pointer;transition:color .3s;background:none;border:none;padding:0}
+.legal-links button:hover{color:var(--gold)}
+.legal-copy{font-size:9px;letter-spacing:.1em;color:rgba(112,104,96,.3)}
+
+/* ── LEGAL MODAL ── */
+.lmodal{position:fixed;inset:0;z-index:9000;display:flex;align-items:flex-start;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s var(--spring)}
+.lmodal.on{opacity:1;pointer-events:all}
+.lmodal-bg{position:absolute;inset:0;background:rgba(5,5,5,.93);backdrop-filter:blur(12px)}
+.lmodal-box{position:relative;z-index:1;background:var(--char);border:1px solid var(--edge);width:min(860px,92vw);max-height:88vh;overflow-y:auto;margin-top:6vh;padding:4rem 4.5rem;scrollbar-width:thin;scrollbar-color:rgba(196,151,63,.25) transparent}
+.lmodal-box::-webkit-scrollbar{width:4px}
+.lmodal-box::-webkit-scrollbar-thumb{background:rgba(196,151,63,.25);border-radius:2px}
+.lmodal-close{position:sticky;top:0;float:right;margin:-1rem -1rem 1rem 1rem;width:36px;height:36px;background:var(--mid);border:1px solid var(--edge);color:var(--mute);font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:color .3s,border-color .3s;flex-shrink:0}
+.lmodal-close:hover{color:var(--gold);border-color:var(--gold)}
+.lmodal-box h2{font-family:var(--serif);font-size:clamp(28px,4vw,44px);font-weight:300;color:var(--text);margin-bottom:2.5rem;letter-spacing:-.01em}
+.lmodal-box h3{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin:2.25rem 0 .85rem;font-weight:500}
+.lmodal-box p{font-size:13px;line-height:2;color:var(--mute);margin-bottom:1rem}
+.lmodal-box a{color:var(--gold);transition:color .3s}
+.lmodal-box a:hover{color:var(--gold-lo)}
+.lmodal-box ul{list-style:none;padding:0;margin-bottom:1rem}
+.lmodal-box ul li{font-size:13px;line-height:2;color:var(--mute);padding-left:1.25rem;position:relative}
+.lmodal-box ul li::before{content:'—';position:absolute;left:0;color:rgba(196,151,63,.4)}
+.lmodal-rule{width:44px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);opacity:.5;margin:2rem 0}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  nav,nav.on{padding:1.5rem 3rem}
+  #heritage,#philosophy,#manifesto,#trace,#products,#certs,#dist,#partner,#contact,footer{padding-left:3rem;padding-right:3rem}
+  #land .land-c{padding-left:3rem;padding-right:3rem}
+}
+
+@media(max-width:900px){
+  /* Nav */
+  nav,nav.on{padding:1.1rem 1.5rem}
+  .nav-links,.nav-r .lang-wrap,.nav-r .nav-cta{display:none}
+  .ham{display:flex}
+  body{cursor:auto}
+  #cur,#cur-o{display:none}
+  button{cursor:pointer}
+
+  /* Section padding */
+  #heritage,#philosophy,#manifesto,#trace,#products,#dist,#partner,#contact{padding:5rem 1.5rem}
+  #certs{padding:5rem 1.5rem}
+  #land .land-c{padding:0 1.5rem 3.5rem}
+  footer{padding:3rem 1.5rem}
+
+  /* Grid layouts → single column */
+  .her-g,.phil-hd,.trace-g,.prod-hd,.dist-g,.con-g{grid-template-columns:1fr;gap:3rem}
+  .phil-g{grid-template-columns:1fr 1fr}
+  .cuts{grid-template-columns:1fr 1fr}
+  .cert-g{grid-template-columns:repeat(2,1fr)}
+  .f-row{grid-template-columns:1fr}
+  .foot-in{flex-direction:column;gap:1.75rem;text-align:center}
+  .foot-links{flex-wrap:wrap;justify-content:center}
+  .partner-types{flex-direction:column}
+  .pt{border-right:none;border-bottom:1px solid rgba(196,151,63,.07)}
+  .pt:last-child{border-bottom:none}
+
+  /* Animal section — gradient to bottom on mobile so full-width text is readable */
+  .animal-c{padding:5rem 1.5rem}
+  .animal-content{margin-left:0;max-width:100%}
+  .animal-traits{grid-template-columns:1fr 1fr;gap:2px}
+  .animal-fade{background:linear-gradient(to bottom,rgba(5,5,5,.3) 0%,rgba(5,5,5,.55) 100%)}
+
+  /* Land section — gradient to bottom on mobile */
+  .land-fade{background:linear-gradient(to bottom,rgba(5,5,5,.55) 0%,rgba(5,5,5,.15) 45%,rgba(5,5,5,.9) 100%)}
+  .land-stats{flex-direction:column;gap:0}
+  .land-stat{border-right:none;border-bottom:1px solid rgba(196,151,63,.12);padding:1.25rem 0;margin-right:0}
+  .land-stat:last-child{border-bottom:none;padding-bottom:0}
+
+  /* Editorial strips */
+  .ed-strip{height:45vh;min-height:260px}
+
+  /* Hero */
+  .hero-scroll{display:none}
+
+  /* Manifesto watermark — smaller on mobile */
+  .mani-bg{font-size:clamp(60px,15vw,120px)}
+}
+
+@media(max-width:600px){
+  /* Nav */
+  nav,nav.on{padding:1rem 1.25rem}
+  .nav-logo{font-size:17px;letter-spacing:.38em}
+
+  /* Section padding */
+  #heritage,#philosophy,#manifesto,#trace,#products,#dist,#partner,#contact{padding:4rem 1.25rem}
+  #certs{padding:4rem 1.25rem}
+  #land .land-c{padding:0 1.25rem 3rem}
+  footer{padding:2.5rem 1.25rem}
+
+  /* Typography */
+  .hero-h1{font-size:clamp(42px,11.5vw,72px)}
+  .land-h{font-size:clamp(34px,9vw,62px)}
+  h2.ttl{font-size:clamp(32px,8.5vw,52px)}
+  .her-q{font-size:18px;padding-left:1.25rem}
+  .mani-q{font-size:clamp(22px,6.5vw,38px)}
+  .hero-sub{font-size:12px}
+
+  /* Grids */
+  .phil-g,.cert-g{grid-template-columns:1fr}
+  .cuts{grid-template-columns:1fr}
+  .animal-traits{grid-template-columns:1fr}
+  .dist-stats{grid-template-columns:1fr 1fr}
+
+  /* Heritage image wider on mobile */
+  .her-img img{aspect-ratio:16/10}
+
+  /* Cuts */
+  .cut-img{aspect-ratio:3/2}
+  .cut-name{font-size:24px}
+  .cut-body{padding:1.75rem 1.5rem}
+
+  /* Editorial strips */
+  .ed-strip{height:38vh;min-height:220px}
+
+  /* Land stats */
+  .land-n{font-size:36px}
+
+  /* Prevent iOS input auto-zoom — inputs must be 16px on mobile */
+  .fg input,.fg select,.fg textarea{font-size:16px}
+
+  /* Letter spacing tightening for overflow prevention */
+  .eyebrow{letter-spacing:.32em}
+  .land-tag{letter-spacing:.3em}
+  .tick-i{letter-spacing:.28em}
+  .cert-l{letter-spacing:.1em}
+  .cert-s{letter-spacing:.06em}
+}
+
+@media(max-width:480px){
+  /* Nav */
+  nav,nav.on{padding:.9rem 1rem}
+  .nav-logo{font-size:15px;letter-spacing:.32em}
+
+  /* Section padding */
+  #heritage,#philosophy,#manifesto,#trace,#products,#dist,#partner,#contact{padding:3.5rem 1rem}
+  #certs{padding:3.5rem 1rem}
+  #land .land-c{padding:0 1rem 2.5rem}
+  footer{padding:2rem 1rem}
+
+  /* Typography */
+  .hero-h1{font-size:clamp(36px,10.5vw,56px)}
+  .hero-sub{font-size:11.5px;letter-spacing:.03em}
+  .hero-eye{font-size:8px;letter-spacing:.25em}
+  h2.ttl{font-size:clamp(28px,8vw,44px)}
+  .land-h{font-size:clamp(28px,8.5vw,48px)}
+  .land-n{font-size:32px}
+  .mani-q{font-size:clamp(19px,5.5vw,30px)}
+  .her-q{font-size:15px}
+  .cut-name{font-size:22px}
+  .stat-n{font-size:38px}
+
+  /* Hero buttons stacked */
+  .hero-btns{flex-direction:column;align-items:center;gap:.85rem}
+  .btn-p,.btn-g{width:100%;max-width:300px;text-align:center;padding:15px 20px;letter-spacing:.2em}
+
+  /* Editorial strips */
+  .ed-strip{height:32vh;min-height:190px}
+
+  /* Manifesto */
+  .mani-bg{display:none}
+  .mani-mark{font-size:72px}
+
+  /* Partner */
+  .partner-in h2{font-size:clamp(32px,8.5vw,54px)}
+
+  /* Animal traits single column already at 600px */
+  .animal-traits{gap:2px}
+
+  /* Footer */
+  .foot-logo{letter-spacing:.35em}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cur"></div>
+<div id="cur-o"></div>
+<div id="prog"></div>
+
+<!-- MOBILE -->
+<div class="mob" id="mob">
+  <a href="#heritage" data-i18n="nav_heritage" onclick="cmob()">Heritage</a>
+  <a href="#animal" data-i18n="nav_animal" onclick="cmob()">The Animal</a>
+  <a href="#products" data-i18n="nav_products" onclick="cmob()">Products</a>
+  <a href="#dist" data-i18n="nav_dist" onclick="cmob()">Distribution</a>
+  <a href="#contact" data-i18n="nav_contact" onclick="cmob()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">ANGELLUS</div>
+  <ul class="nav-links">
+    <li><a href="#heritage" data-i18n="nav_heritage">Heritage</a></li>
+    <li><a href="#animal" data-i18n="nav_animal">The Animal</a></li>
+    <li><a href="#products" data-i18n="nav_products">Products</a></li>
+    <li><a href="#dist" data-i18n="nav_dist">Distribution</a></li>
+    <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+  </ul>
+  <div class="nav-r">
+    <div class="lang-wrap">
+      <button class="lang-btn on" onclick="setLang('en')">EN</button>
+      <span class="lang-div"></span>
+      <button class="lang-btn" onclick="setLang('de')">DE</button>
+    </div>
+    <button class="nav-cta" onclick="scroll2('partner')"><span data-i18n="nav_cta">Become a Partner</span></button>
+    <button class="ham" id="ham" onclick="tmob()" aria-label="Menu">
+      <i></i><i></i><i></i>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-fade"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-c">
+    <div style="display:inline-block;margin:-3rem auto 2rem;text-align:center;width:100%">
+      <img src="images/Logo firefly.png" alt="ANGELLUS" class="hero-logo" style="width:clamp(240px,34vw,500px);margin:0 auto;display:block;opacity:.95"/>
+      <div style="display:flex;align-items:center;gap:1rem;margin-top:-4rem;padding:0 clamp(1rem,8vw,6rem)">
+        <span style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(196,151,63,0.7))"></span>
+        <p class="hero-eye" id="hEye" data-i18n="hero_eye" style="margin:0;white-space:nowrap;color:#E8C97A;font-size:13px;letter-spacing:.32em;text-shadow:0 2px 8px rgba(0,0,0,0.95),0 0 30px rgba(0,0,0,0.8),0 0 20px rgba(196,151,63,0.35);font-weight:500">Argentine Premium Angus Beef</p>
+        <span style="flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(196,151,63,0.7))"></span>
+      </div>
+    </div>
+    <h1 class="hero-h1" id="hTitle" data-i18n-html="hero_title">From the Pampas<br><em>to the World</em></h1>
+    <div class="hero-line"></div>
+    <p class="hero-sub" id="hSub" data-i18n-html="hero_sub"><span style="color:var(--gold)">ANGELLUS</span> sources the finest Argentine Angus beef, delivering exceptional quality to premium customers and luxury restaurants worldwide.</p>
+    <div class="hero-btns">
+      <button class="btn-p" id="hBtnP" onclick="scroll2('products')"><span data-i18n="hero_btn1">Explore Our Products</span></button>
+      <button class="btn-g" id="hBtnG" onclick="scroll2('partner')"><span data-i18n="hero_btn2">Become a Partner</span></button>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="sline"></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="tick">
+  <div class="tick-t">
+    <span class="tick-i"><span data-i18n="tick1">Argentine Premium Angus</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick2">Grass-Fed &amp; 90-Day Grain-Finished</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick3">EU Export Certified</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick4">Full Chain Traceability</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick5">Premium Cold-Chain Logistics</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick6">Global Distribution</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick7">Halal &amp; Kosher Certified</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick8">Headquartered in Germany</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick1">Argentine Premium Angus</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick2">Grass-Fed &amp; 90-Day Grain-Finished</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick3">EU Export Certified</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick4">Full Chain Traceability</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick5">Premium Cold-Chain Logistics</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick6">Global Distribution</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick7">Halal &amp; Kosher Certified</span> <span class="tick-d">✦</span></span>
+    <span class="tick-i"><span data-i18n="tick8">Headquartered in Germany</span> <span class="tick-d">✦</span></span>
+  </div>
+</div>
+
+<!-- THE LAND -->
+<section id="land">
+  <img src="images/Logo firefly.png" alt="" aria-hidden="true" style="position:absolute;bottom:2.5rem;right:2.5rem;width:160px;opacity:0.55;pointer-events:none;user-select:none;z-index:3">
+  <div class="land-bg" id="landBg"></div>
+  <div class="land-fade"></div>
+  <div class="land-c">
+    <p class="land-tag rv" data-i18n="land_tag">The Land</p>
+    <h2 class="land-h rv d1" data-i18n-html="land_h">Where the Pampas<br><em>Shapes Every Cut</em></h2>
+    <p class="land-p rv d2" data-i18n-html="land_p">Argentina's Pampas region — one of the world's most fertile grasslands — provides the singular environment in which <span style="color:var(--gold)">ANGELLUS</span> cattle are raised. Stretching endlessly beneath an open sky, this is the land that makes our beef unlike any other.</p>
+    <div class="land-stats">
+      <div class="land-stat rv d2">
+        <div class="land-n" data-count="40" data-suffix="M+">0</div>
+        <div class="land-l" data-i18n="land_l1">Hectares of Pampas Grassland</div>
+      </div>
+      <div class="land-stat rv d3">
+        <div class="land-n" data-count="140" data-suffix="+">0</div>
+        <div class="land-l" data-i18n="land_l2">Years of Ranching Heritage</div>
+      </div>
+      <div class="land-stat rv d4">
+        <div class="land-n" data-count="15" data-suffix="°C">0</div>
+        <div class="land-l" data-i18n="land_l3">Avg. Annual Temperature</div>
+      </div>
+      <div class="land-stat rv d5">
+        <div class="land-n" data-count="90" data-suffix=" days">0</div>
+        <div class="land-l" data-i18n="land_l4">Precision Grain Finish</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HERITAGE -->
+<section id="heritage" style="position:relative">
+  <img src="images/Logo firefly.png" alt="" aria-hidden="true" style="position:absolute;bottom:2.5rem;right:2.5rem;width:160px;opacity:0.55;pointer-events:none;user-select:none;z-index:3">
+  <div class="wrap">
+    <div class="her-g">
+      <div class="rvl">
+        <div class="her-img">
+          <img class="clip" src="images/AdobeStock_456749111.jpeg" alt="Argentine gaucho on horseback herding cattle through golden dust" loading="lazy" style="aspect-ratio:16/10;object-position:center 40%"/>
+          <div class="her-frame"></div>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow rv" data-i18n="her_eye">Our Heritage</p>
+        <h2 class="ttl rv d1" data-i18n-html="her_h">Tradition<br><em>Centuries Deep</em></h2>
+        <div class="rule rv d2"></div>
+        <p class="body rv d2" data-i18n="her_p1">Argentina's relationship with cattle runs deeper than commerce — it is woven into the national identity. For generations, the gaucho has shaped a culture of respect for the land and the animal, a tradition passed down through ranching families across the boundless Pampas.</p>
+        <blockquote class="her-q rv d3" data-i18n="her_q">"The Pampas do not merely feed cattle — they shape them. Wind, grass, and time create something no feedlot ever could."</blockquote>
+        <p class="body rv d4" data-i18n-html="her_p2">The unique temperate climate, nutrient-rich grasslands, and wide open expanses of the Argentine Pampas produce cattle of unmatched quality. This is not simply a supply chain. It is a living heritage — and <span style="color:var(--gold)">ANGELLUS</span> is its global ambassador.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDITORIAL STRIP: BLACK ANGUS PORTRAIT -->
+<div class="ed-strip">
+  <img src="images/AdobeStock_396260381.jpeg" alt="Argentine Black Angus — purity of breed" loading="lazy"/>
+  <div class="ed-strip-fade"></div>
+</div>
+
+<!-- THE ANIMAL -->
+<section id="animal">
+  <img src="images/Logo firefly.png" alt="" aria-hidden="true" style="position:absolute;bottom:2.5rem;right:2.5rem;width:160px;opacity:0.55;pointer-events:none;user-select:none;z-index:3">
+  <div class="animal-bg" id="animalBg"></div>
+  <div class="animal-fade"></div>
+  <div class="animal-c">
+    <div class="animal-content">
+      <p class="eyebrow rv" style="color:var(--gold)" data-i18n="an_eye">The Animal</p>
+      <h2 class="ttl rv d1" style="color:#fff" data-i18n-html="an_h">The Argentine<br><em>Black Angus</em></h2>
+      <div class="rule rv d2"></div>
+      <p class="body rv d2" style="color:rgba(237,232,224,.62)" data-i18n-html="an_p">The Angus breed — naturally polled, solid black, compact and muscular — thrives in the Argentine Pampas like nowhere else on earth. Combined with the unique grassland terroir and our precise grain-finishing program, <span style="color:var(--gold)">ANGELLUS</span> Angus produce beef of extraordinary consistency, marbling, and depth of flavour.</p>
+      <div class="animal-traits">
+        <div class="trait rv d2">
+          <div class="trait-icon"></div>
+          <p class="trait-t" data-i18n="trait1_t">Naturally Hornless</p>
+          <p class="trait-d" data-i18n="trait1_d">The Angus breed is genetically polled — born without horns, reducing stress and making animal welfare management superior by design.</p>
+        </div>
+        <div class="trait rv d3">
+          <div class="trait-icon"></div>
+          <p class="trait-t" data-i18n="trait2_t">Superior Marbling</p>
+          <p class="trait-d" data-i18n="trait2_d">Angus genetics produce exceptional intramuscular fat distribution, delivering the consistent marbling and tenderness demanded by fine dining and premium retail.</p>
+        </div>
+        <div class="trait rv d4">
+          <div class="trait-icon"></div>
+          <p class="trait-t" data-i18n="trait3_t">Pampas-Adapted</p>
+          <p class="trait-d" data-i18n="trait3_d">Centuries of selective ranching in the Argentine climate have produced cattle uniquely adapted to the Pampas environment, resulting in deeper flavour and finer grain.</p>
+        </div>
+        <div class="trait rv d5">
+          <div class="trait-icon"></div>
+          <p class="trait-t" data-i18n="trait4_t">Consistent Yield</p>
+          <p class="trait-d" data-i18n-html="trait4_d"><span style="color:var(--gold)">ANGELLUS</span> selects only the top percentile of Angus genetics. Every consignment meets the same exacting weight, grading, and quality benchmarks — without exception.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDITORIAL STRIP: PASTORAL ANGUS -->
+<div class="ed-strip ed-strip--fixed">
+  <img src="images/AdobeStock_229512587.jpeg" alt="Black Angus grazing on open Argentine pasture" loading="lazy"/>
+  <div class="ed-strip-fade"></div>
+</div>
+
+<!-- PHILOSOPHY -->
+<section id="philosophy" style="position:relative">
+  <img src="images/Logo firefly.png" alt="" aria-hidden="true" style="position:absolute;bottom:2.5rem;right:2.5rem;width:160px;opacity:0.55;pointer-events:none;user-select:none;z-index:3">
+  <div class="wrap">
+    <div class="phil-hd">
+      <div>
+        <p class="eyebrow rv" data-i18n="phil_eye">Our Philosophy</p>
+        <h2 class="ttl rv d1" data-i18n-html="phil_h">Nature, Tradition,<br><em>Precision</em></h2>
+      </div>
+      <div class="rv d2">
+        <p class="body" data-i18n="phil_p">Every decision we make — from the ranches we select to the cuts we supply — flows from one conviction: that the world's finest beef comes from animals raised with patience, purpose, and profound respect for nature's process.</p>
+      </div>
+    </div>
+    <div class="phil-g">
+      <div class="p-card rv d1">
+        <div class="p-num">01</div>
+        <p class="p-t" data-i18n="p1_t">Grass-Fed Origins</p>
+        <p class="p-d" data-i18n-html="p1_d">Every <span style="color:var(--gold)">ANGELLUS</span> animal begins life on open Pampas grassland, grazing freely on natural pasture. This foundation builds deep flavour, lean muscle, and the character that defines true Argentine beef.</p>
+      </div>
+      <div class="p-card rv d2">
+        <div class="p-num">02</div>
+        <p class="p-t" data-i18n="p2_t">Stress-Free Ranching</p>
+        <p class="p-d" data-i18n="p2_d">We partner exclusively with ranches that uphold the highest standards of animal welfare. Stress-free environments produce calmer animals — and calmer animals produce cleaner, more consistent meat.</p>
+      </div>
+      <div class="p-card rv d3">
+        <div class="p-num">03</div>
+        <p class="p-t" data-i18n="p3_t">90-Day Grain Finish</p>
+        <p class="p-d" data-i18n="p3_d">Following the grass-fed phase, our cattle undergo a precisely managed 90-day grain-finishing program. The result is consistent marbling, exceptional tenderness, and rich depth of flavour.</p>
+      </div>
+      <div class="p-card rv d4">
+        <div class="p-num">04</div>
+        <p class="p-t" data-i18n="p4_t">Uncompromising Selection</p>
+        <p class="p-d" data-i18n-html="p4_d">Only cattle meeting our strict genetic and quality benchmarks enter the <span style="color:var(--gold)">ANGELLUS</span> program. Premium Angus genetics, combined with the Pampas environment, yield a product that stands apart in any market.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section id="manifesto">
+  <img src="images/Logo firefly.png" alt="" aria-hidden="true" style="position:absolute;bottom:2.5rem;right:2.5rem;width:160px;opacity:0.55;pointer-events:none;user-select:none;z-index:3">
+  <div class="mani-bg">ANGELLUS</div>
+  <div class="mani-in">
+    <span class="mani-mark rv">"</span>
+    <p class="mani-q rv d1" data-i18n-html="mani_q">The world's great kitchens<br>do not compromise.<br>Neither do we.</p>
+    <p class="mani-a rv d2" data-i18n="mani_a">— ANGELLUS, Argentina</p>
+  </div>
+</section>
+
+<!-- TRACEABILITY -->
+<section id="trace" style="position:relative">
+  <img src="images/Logo firefly.png" alt="" aria-hidden="true" style="position:absolute;bottom:2.5rem;right:2.5rem;width:160px;opacity:0.55;pointer-events:none;user-select:none;z-index:3">
+  <div class="wrap">
+    <div class="trace-g">
+      <div>
+        <p class="eyebrow rv" data-i18n="tr_eye">Full Traceability</p>
+        <h2 class="ttl rv d1" data-i18n-html="tr_h">From Ranch<br><em>to Table</em></h2>
+        <div class="rule rv d2"></div>
+        <p class="body rv d2" data-i18n-html="tr_p">Transparency is not a feature — it is the foundation of <span style="color:var(--gold)">ANGELLUS</span>. Every cut we supply carries a complete, verifiable record of its origin, care, and journey. Our partners trust us because we leave nothing to assumption.</p>
+      </div>
+      <div class="t-steps">
+        <div class="t-step rv d1">
+          <div class="t-n">1</div>
+          <div>
+            <p class="t-h" data-i18n="step1_h">Ranch Selection</p>
+            <p class="t-p" data-i18n="step1_p">We work exclusively with a curated network of certified ranch partners across Argentina's prime beef regions, evaluated for genetics, land quality, and animal welfare standards.</p>
+          </div>
+        </div>
+        <div class="t-step rv d2">
+          <div class="t-n">2</div>
+          <div>
+            <p class="t-h" data-i18n="step2_h">Animal Traceability</p>
+            <p class="t-p" data-i18n="step2_p">Each animal is individually tracked from birth through to processing. Full documentation accompanies every consignment, providing complete provenance records.</p>
+          </div>
+        </div>
+        <div class="t-step rv d3">
+          <div class="t-n">3</div>
+          <div>
+            <p class="t-h" data-i18n="step3_h">Quality Inspection</p>
+            <p class="t-p" data-i18n-html="step3_p">Strict grading and quality control at every stage. Only cuts meeting our exacting marbling, weight, and consistency standards carry the <span style="color:var(--gold)">ANGELLUS</span> name.</p>
+          </div>
+        </div>
+        <div class="t-step rv d4">
+          <div class="t-n">4</div>
+          <div>
+            <p class="t-h" data-i18n="step4_h">Export Certification</p>
+            <p class="t-p" data-i18n-html="step4_p">All <span style="color:var(--gold)">ANGELLUS</span> products comply with EU, US, and global food safety standards, ensuring seamless entry into every market we serve worldwide.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" style="position:relative">
+  <img src="images/Logo firefly.png" alt="" aria-hidden="true" style="position:absolute;bottom:2.5rem;right:2.5rem;width:160px;opacity:0.55;pointer-events:none;user-select:none;z-index:3">
+  <div class="wrap">
+    <div class="prod-hd">
+      <div>
+        <p class="eyebrow rv" data-i18n="prod_eye">Our Products</p>
+        <h2 class="ttl rv d1" data-i18n-html="prod_h">The Finest<br><em>Argentine Cuts</em></h2>
+        <div class="rule rv d2"></div>
+      </div>
+      <p class="body rv d2" style="align-self:end" data-i18n-html="prod_p"><span style="color:var(--gold)">ANGELLUS</span> specializes in rump and loin cuts — the crown of Argentine beef culture. Each cut is selected for its individual character and prepared to meet the demands of the world's most discerning chefs and distributors.</p>
+    </div>
+    <div class="cuts">
+
+      <div class="cut rv d1">
+        <div class="cut-img">
+          <img src="images/Lomo enhanced.png" alt="Lomo sin Cordón — Argentine Black Angus tenderloin" loading="lazy"/>
+          <div class="cut-ov"></div>
+          <div class="cut-ph"><span>Insert Product Image</span></div>
+        </div>
+        <div class="cut-body">
+          <p class="cut-tag" data-i18n="cut1_tag">Tenderloin</p>
+          <h3 class="cut-name">Lomo sin Cordón</h3>
+          <p class="cut-sub" data-i18n="cut1_sub">Tenderloin Strap Off</p>
+          <p class="cut-d" data-i18n="cut1_d">The pinnacle of refinement. Stripped of its strap for a perfectly clean presentation, delivering incomparable tenderness and a delicate, buttery flavour prized by the finest kitchens worldwide.</p>
+        </div>
+      </div>
+
+      <div class="cut rv d2">
+        <div class="cut-img">
+          <img src="images/Bife angosto enhanced.png" alt="Bife Angosto — Argentine Black Angus striploin" loading="lazy"/>
+          <div class="cut-ov"></div>
+          <div class="cut-ph"><span>Insert Product Image</span></div>
+        </div>
+        <div class="cut-body">
+          <p class="cut-tag" data-i18n="cut2_tag">Striploin</p>
+          <h3 class="cut-name">Bife Angosto 4 Cost C/C</h3>
+          <p class="cut-sub" data-i18n="cut2_sub">Striploin 4 Ribs Strap On</p>
+          <p class="cut-d" data-i18n="cut2_d">Argentina's signature loin cut, presented with 4 ribs and strap on for maximum flavour impact. Firm yet tender, with a bold, characterful taste that has defined Argentine beef culture for generations.</p>
+        </div>
+      </div>
+
+      <div class="cut rv d3">
+        <div class="cut-img">
+          <img src="images/Corazon de cuadril enhanced.png" alt="Corazón de Cuadril — Argentine Black Angus heart of rump" loading="lazy"/>
+          <div class="cut-ov"></div>
+          <div class="cut-ph"><span>Insert Product Image</span></div>
+        </div>
+        <div class="cut-body">
+          <p class="cut-tag" data-i18n="cut3_tag">Rump</p>
+          <h3 class="cut-name">Corazón de Cuadril</h3>
+          <p class="cut-sub" data-i18n="cut3_sub">Heart of Rump</p>
+          <p class="cut-d" data-i18n="cut3_d">The heart of the rump — lean, clean, and intensely flavoured. A versatile premium cut respected by butchers and chefs alike for its consistent texture and exceptional depth of taste.</p>
+        </div>
+      </div>
+
+      <div class="cut rv d4">
+        <div class="cut-img">
+          <img src="images/bife ancho enhanced.png" alt="Bife Ancho — Argentine Black Angus cube roll" loading="lazy"/>
+          <div class="cut-ov"></div>
+          <div class="cut-ph"><span>Insert Product Image</span></div>
+        </div>
+        <div class="cut-body">
+          <p class="cut-tag" data-i18n="cut4_tag">Cube Roll</p>
+          <h3 class="cut-name">Bife Ancho 5 Costillas (S/C)</h3>
+          <p class="cut-sub" data-i18n="cut4_sub">Cube Roll 5 Ribs Strap Off</p>
+          <p class="cut-d" data-i18n="cut4_d">Rich intramuscular marbling across 5 ribs, strap off for a refined finish. Delivers unmatched juiciness, a deep aromatic flavour, and the consistency demanded by elite distributors globally.</p>
+        </div>
+      </div>
+
+      <div class="cut rv d5">
+        <div class="cut-img">
+          <img src="images/tapa de cuadril enhanced.png" alt="Tapa de Cuadril — Argentine Black Angus picanha" loading="lazy"/>
+          <div class="cut-ov"></div>
+          <div class="cut-ph"><span>Insert Product Image</span></div>
+        </div>
+        <div class="cut-body">
+          <p class="cut-tag" data-i18n="cut5_tag">Cap of Rump</p>
+          <h3 class="cut-name">Tapa de Cuadril</h3>
+          <p class="cut-sub" data-i18n="cut5_sub">Cap of Rump — Picanha</p>
+          <p class="cut-d" data-i18n="cut5_d">One of the most prized cuts in global luxury markets. Defined by its distinctive fat cap and bold, rich flavour — a celebrated centrepiece of Argentine grilling tradition and the world's finest restaurants.</p>
+        </div>
+      </div>
+
+      <div class="cut rv d6">
+        <div class="cut-img">
+          <img src="images/colita de cuadril enhanced.png" alt="Colita de Cuadril — Argentine Black Angus tail of rump" loading="lazy"/>
+          <div class="cut-ov"></div>
+          <div class="cut-ph"><span>Insert Product Image</span></div>
+        </div>
+        <div class="cut-body">
+          <p class="cut-tag" data-i18n="cut6_tag">Tail of Rump</p>
+          <h3 class="cut-name">Colita de Cuadril</h3>
+          <p class="cut-sub" data-i18n="cut6_sub">Tail of Rump</p>
+          <p class="cut-d" data-i18n="cut6_d">A compact, richly flavoured cut from the tail of the rump. Highly valued for its intense taste and fine grain — rewards slow cooking and precision preparation in equal measure.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs" style="position:relative">
+  <img src="images/Logo firefly.png" alt="" aria-hidden="true" style="position:absolute;bottom:2.5rem;right:2.5rem;width:160px;opacity:0.55;pointer-events:none;user-select:none;z-index:3">
+  <div class="wrap">
+    <div class="cert-hd">
+      <p class="eyebrow ey-center rv" data-i18n="cert_eye">Certifications</p>
+      <h2 class="rv d1" data-i18n-html="cert_h">Quality You Can <em>Verify.</em></h2>
+    </div>
+    <div class="cert-g">
+      <div class="cert rv d1">
+        <div class="cert-img"><img src="https://hveimages.blob.core.windows.net/newsimages/129_largephoto.png" alt="Halal" loading="lazy"/><div class="cert-ph"><div class="cert-ph-i"></div></div></div>
+        <p class="cert-l" data-i18n="cert_halal">Halal Certified</p>
+      </div>
+      <div class="cert rv d2">
+        <div class="cert-img"><img src="https://blackbamboo.com.ar/wp-content/uploads/al_opt_content/IMAGE/blackbamboo.com.ar/wp-content/uploads/2023/05/kosher-certificate.png.bv.webp?bv_host=blackbamboo.com.ar" alt="Kosher" loading="lazy"/><div class="cert-ph"><div class="cert-ph-i"></div></div></div>
+        <p class="cert-l" data-i18n="cert_kosher">Kosher Certified</p>
+      </div>
+      <div class="cert rv d3">
+        <div class="cert-img"><img src="images/HQB certificacion.jpeg" alt="High Quality Beef" loading="lazy"/><div class="cert-ph"><div class="cert-ph-i"></div></div></div>
+        <p class="cert-l" data-i18n="cert_hqb">High Quality Beef</p>
+      </div>
+      <div class="cert rv d4">
+        <div class="cert-img"><img src="https://www.agrolatam.com/files/image/28/28928/5c950d0235cae.jpg" alt="Argentine Angus Beef" loading="lazy"/><div class="cert-ph"><div class="cert-ph-i"></div></div></div>
+        <p class="cert-l" data-i18n="cert_angus">Argentine Angus Beef</p>
+      </div>
+      <div class="cert rv d5">
+        <div class="cert-img"><img src="https://www.oia.com.ar/wp-content/uploads/2019/09/OIA.png" alt="OIA Organic" loading="lazy"/><div class="cert-ph"><div class="cert-ph-i"></div></div></div>
+        <p class="cert-l" data-i18n="cert_organic">Organic Certified</p>
+      </div>
+      <div class="cert rv d6">
+        <div class="cert-img"><img src="https://www.urienloza.com.ar/multimedia/noticias/N/201904/xarchivo_20190411104957_8188_298x354.png.pagespeed.ic.t5AvWJakmK.png" alt="Best Beef on Earth" loading="lazy"/><div class="cert-ph"><div class="cert-ph-i"></div></div></div>
+        <p class="cert-l" data-i18n="cert_best">Best Beef on Earth</p>
+      </div>
+      <div class="cert rv d7">
+        <div class="cert-img"><img src="images/BRC.webp" alt="BRC Certification" loading="lazy"/><div class="cert-ph"><div class="cert-ph-i"></div></div></div>
+        <p class="cert-l" data-i18n="cert7">BCR Certified</p>
+      </div>
+      <div class="cert rv d7">
+        <div class="cert-img"><img src="images/SGS.png" alt="SGS Certification" loading="lazy"/><div class="cert-ph"><div class="cert-ph-i"></div></div></div>
+        <p class="cert-l" data-i18n="cert8">SGS Certified</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISTRIBUTION -->
+<section id="dist" style="position:relative">
+  <img src="images/Logo firefly.png" alt="" aria-hidden="true" style="position:absolute;bottom:2.5rem;right:2.5rem;width:160px;opacity:0.55;pointer-events:none;user-select:none;z-index:3">
+  <div class="wrap">
+    <div class="dist-g">
+      <div>
+        <p class="eyebrow rv" data-i18n="dist_eye">Global Distribution</p>
+        <h2 class="ttl rv d1" data-i18n-html="dist_h">Delivered<br><em>Everywhere</em></h2>
+        <div class="rule rv d2"></div>
+        <p class="body rv d2" data-i18n-html="dist_p1"><span style="color:var(--gold)">ANGELLUS</span> operates a precision cold-chain logistics network built for the demands of premium international distribution. From processing in Argentina to delivery in Europe, Asia, and the Middle East, every link is managed with the same care as the product itself.</p>
+        <p class="body rv d3" style="margin-top:1.5rem" data-i18n="dist_p2">Our export certifications cover all major markets. Logistics partners are selected for cold-chain expertise and reliability. Your supply is consistent. Your product arrives perfect.</p>
+        <div class="dist-stats">
+          <div class="stat rv d3"><div class="stat-n" data-count="40" data-suffix="+">0+</div><div class="stat-l" data-i18n="dist_l1">Export Markets</div></div>
+          <div class="stat rv d4"><div class="stat-n" data-count="100" data-suffix="%">0%</div><div class="stat-l" data-i18n="dist_l2">Cold-Chain Certified</div></div>
+          <div class="stat rv d5"><div class="stat-n">EU</div><div class="stat-l" data-i18n="dist_l3">Certified &amp; Compliant</div></div>
+          <div class="stat rv d6"><div class="stat-n">HQ</div><div class="stat-l" data-i18n="dist_l4">Munich, Germany</div></div>
+        </div>
+      </div>
+      <div class="dist-img rvr">
+        <img src="images/AdobeStock_456752177.jpeg" alt="Argentine gauchos on horseback herding cattle alongside a pampas windmill" loading="lazy"/>
+        <div class="dist-frame"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNER -->
+<section id="partner" style="position:relative">
+  <img src="images/Logo firefly.png" alt="" aria-hidden="true" style="position:absolute;bottom:2.5rem;right:2.5rem;width:160px;opacity:0.55;pointer-events:none;user-select:none;z-index:3">
+  <div class="wrap">
+    <div class="partner-in">
+      <p class="eyebrow ey-center rv" data-i18n="par_eye">Partner With ANGELLUS</p>
+      <h2 class="ttl rv d1" data-i18n-html="par_h">The Standard<br><em>Your Clients Expect</em></h2>
+      <div class="rule rv d2" style="margin:2.5rem auto"></div>
+      <p class="body rv d2" data-i18n-html="par_p1">Whether you are a premium meat distributor, a gourmet importer, a luxury restaurant group, or a hospitality company, <span style="color:var(--gold)">ANGELLUS</span> offers the consistency, traceability, and prestige your most discerning clients demand.</p>
+      <p class="body rv d3" style="margin-top:1.5rem" data-i18n-html="par_p2">We build long-term relationships with partners who share our commitment to quality. Supply reliability, export expertise, and a product that carries genuine provenance — this is what a partnership with <span style="color:var(--gold)">ANGELLUS</span> delivers.</p>
+      <div class="partner-btns rv d3">
+        <button class="btn-p" onclick="scroll2('contact')"><span data-i18n="par_btn1">Enquire Now</span></button>
+        <button class="btn-g" onclick="scroll2('products')"><span data-i18n="par_btn2">View Products</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="position:relative;overflow:hidden">
+  <img src="images/Logo firefly.png" alt="" aria-hidden="true" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:clamp(650px,95vw,1100px);opacity:0.13;pointer-events:none;user-select:none;z-index:0">
+  <div class="wrap" style="position:relative;z-index:1">
+    <div class="con-g">
+      <div>
+        <p class="eyebrow rv" data-i18n="con_eye">Contact</p>
+        <h2 class="ttl rv d1" data-i18n-html="con_h">Begin a<br><em>Conversation</em></h2>
+        <div class="rule rv d2"></div>
+        <p class="body rv d2" data-i18n="con_p">Our team is based in Germany and works with partners across the globe. We welcome enquiries from qualified distributors, importers, restaurant groups, and hospitality companies.</p>
+        <div class="con-det rv d3">
+          <div class="con-i"><span data-i18n="con_email_l">Email</span><a href="mailto:angellus.info@gmail.com">angellus.info@gmail.com</a></div>
+          <div class="con-i"><span data-i18n="con_phone_l">Phone</span><a href="tel:+4915116984951">+49 151 169 84951</a></div>
+          <div class="con-i"><span data-i18n="con_hq_l">Headquarters</span><a href="#">Munich, Germany</a></div>
+        </div>
+      </div>
+      <div class="rvr">
+        <form id="contactForm">
+          <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY"/>
+          <input type="hidden" name="subject" value="New Enquiry — ANGELLUS Website"/>
+          <input type="hidden" name="from_name" value="ANGELLUS Website"/>
+          <div class="f-row">
+            <div class="fg"><label data-i18n="form_fname">First Name</label><input type="text" name="first_name" data-i18n-ph="ph_fname" placeholder="James" autocomplete="given-name" required/></div>
+            <div class="fg"><label data-i18n="form_lname">Last Name</label><input type="text" name="last_name" data-i18n-ph="ph_lname" placeholder="Anderson" autocomplete="family-name" required/></div>
+          </div>
+          <div class="fg"><label data-i18n="form_company">Company</label><input type="text" name="company" data-i18n-ph="ph_company" placeholder="Anderson Premium Foods GmbH" autocomplete="organization"/></div>
+          <div class="fg"><label data-i18n="form_email">Email Address</label><input type="email" name="email" data-i18n-ph="ph_email" placeholder="j.anderson@company.com" autocomplete="email" required/></div>
+          <div class="fg">
+            <label data-i18n="form_enq">Enquiry Type</label>
+            <div class="csel" id="enqSel">
+              <button type="button" class="csel-btn" onclick="toggleSel(this)" aria-haspopup="listbox">
+                <span class="csel-val" data-i18n="sel_default">Select an option</span>
+                <svg class="csel-arrow" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.5 0.5L5 5L9.5 0.5" stroke-width="1" stroke-linecap="round"/></svg>
+              </button>
+              <div class="csel-drop" role="listbox">
+                <div class="csel-opt" data-i18n="opt1" data-en="Partnership / Distribution" onclick="pickSel(this)">Partnership / Distribution</div>
+                <div class="csel-opt" data-i18n="opt2" data-en="Product Enquiry" onclick="pickSel(this)">Product Enquiry</div>
+                <div class="csel-opt" data-i18n="opt3" data-en="Import / Export" onclick="pickSel(this)">Import / Export</div>
+                <div class="csel-opt" data-i18n="opt4" data-en="Restaurant / Hospitality" onclick="pickSel(this)">Restaurant / Hospitality</div>
+                <div class="csel-opt" data-i18n="opt5" data-en="Other" onclick="pickSel(this)">Other</div>
+              </div>
+              <input type="hidden" name="enquiry" class="csel-input"/>
+            </div>
+          </div>
+          <div class="fg"><label data-i18n="form_msg">Message</label><textarea name="message" data-i18n-ph="ph_msg" placeholder="Please describe your requirements and market..." required></textarea></div>
+          <button type="submit" id="formSubmitBtn" class="f-sub"><span data-i18n="form_submit">Send Enquiry</span></button>
+        </form>
+        <div id="formSuccess" style="display:none;text-align:center;padding:4rem 0">
+          <div style="width:44px;height:1px;background:var(--gold);margin:0 auto 2rem;opacity:.6"></div>
+          <p style="font-family:var(--serif);font-size:28px;font-weight:300;color:var(--gold);margin-bottom:1rem;letter-spacing:.02em">Thank you.</p>
+          <p style="color:var(--text2);font-size:13px;letter-spacing:.08em;line-height:2">Your enquiry has been received.<br>We will be in touch shortly.</p>
+          <div style="width:44px;height:1px;background:var(--gold);margin:2rem auto 0;opacity:.6"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-in">
+    <div>
+      <div class="foot-logo">ANGELLUS</div>
+      <div class="foot-sub" data-i18n="foot_sub">Argentine Premium Angus Beef</div>
+    </div>
+    <div class="foot-links">
+      <a href="#heritage" data-i18n="nav_heritage">Heritage</a>
+      <a href="#animal" data-i18n="nav_animal">The Animal</a>
+      <a href="#products" data-i18n="nav_products">Products</a>
+      <a href="#dist" data-i18n="nav_dist">Distribution</a>
+      <a href="#contact" data-i18n="nav_contact">Contact</a>
+    </div>
+    <div class="foot-copy" data-i18n="foot_copy">© 2026 ANGELLUS. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- LEGAL BAR -->
+<div class="legal-bar">
+  <div class="legal-links">
+    <button onclick="openLegal('impressum')" data-i18n="legal_impressum">Impressum</button>
+    <button onclick="openLegal('datenschutz')" data-i18n="legal_privacy">Datenschutzerklärung</button>
+  </div>
+  <div class="legal-copy" data-i18n="foot_copy">© 2026 ANGELLUS. All rights reserved.</div>
+</div>
+
+<!-- IMPRESSUM MODAL -->
+<div class="lmodal" id="modal-impressum">
+  <div class="lmodal-bg" onclick="closeLegal('impressum')"></div>
+  <div class="lmodal-box">
+    <button class="lmodal-close" onclick="closeLegal('impressum')">✕</button>
+    <h2 data-i18n="imp_title">Impressum</h2>
+
+    <h3 data-i18n="imp_h1">Angaben gemäß § 5 TMG</h3>
+    <p>ANGELLUS<br>
+    [Straße und Hausnummer]<br>
+    [PLZ] München<br>
+    Deutschland</p>
+
+    <div class="lmodal-rule"></div>
+
+    <h3 data-i18n="imp_h2">Vertreten durch</h3>
+    <p data-i18n="imp_rep">[Name des Geschäftsführers]</p>
+
+    <h3 data-i18n="imp_h3">Kontakt</h3>
+    <p>
+      <span data-i18n="imp_phone_lbl">Telefon:</span> <a href="tel:+4915116984951">+49 151 169 84951</a><br>
+      <span data-i18n="imp_email_lbl">E-Mail:</span> <a href="mailto:angellus.info@gmail.com">angellus.info@gmail.com</a>
+    </p>
+
+    <h3 data-i18n="imp_h4">Handelsregister</h3>
+    <p data-i18n="imp_reg">Registernummer: [HRB XXXXX]<br>Registergericht: Amtsgericht München</p>
+
+    <h3 data-i18n="imp_h5">Umsatzsteuer-ID</h3>
+    <p data-i18n="imp_vat">Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz: DE[XXXXXXXXX]</p>
+
+    <h3 data-i18n="imp_h6">Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h3>
+    <p data-i18n="imp_resp">[Name und Anschrift der verantwortlichen Person]</p>
+
+    <div class="lmodal-rule"></div>
+
+    <h3 data-i18n="imp_h7">Haftungsausschluss</h3>
+    <p data-i18n="imp_disc1">Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. ANGELLUS übernimmt jedoch keine Gewähr für die Richtigkeit, Vollständigkeit und Aktualität der bereitgestellten Inhalte. Die Nutzung der Inhalte der Website erfolgt auf eigene Gefahr des Nutzers.</p>
+    <p data-i18n="imp_disc2">Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen.</p>
+
+    <h3 data-i18n="imp_h8">Urheberrecht</h3>
+    <p data-i18n="imp_copy">Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
+  </div>
+</div>
+
+<!-- DATENSCHUTZ MODAL -->
+<div class="lmodal" id="modal-datenschutz">
+  <div class="lmodal-bg" onclick="closeLegal('datenschutz')"></div>
+  <div class="lmodal-box">
+    <button class="lmodal-close" onclick="closeLegal('datenschutz')">✕</button>
+    <h2 data-i18n="dse_title">Datenschutzerklärung</h2>
+
+    <h3 data-i18n="dse_h1">1. Verantwortlicher</h3>
+    <p data-i18n="dse_p1">Verantwortlicher im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:<br>
+    ANGELLUS, [Straße], [PLZ] München, Deutschland<br>
+    E-Mail: <a href="mailto:angellus.info@gmail.com">angellus.info@gmail.com</a><br>
+    Telefon: <a href="tel:+4915116984951">+49 151 169 84951</a></p>
+
+    <div class="lmodal-rule"></div>
+
+    <h3 data-i18n="dse_h2">2. Erhebung und Verarbeitung personenbezogener Daten</h3>
+    <p data-i18n="dse_p2">Wir verarbeiten personenbezogene Daten nur, soweit dies zur Bereitstellung einer funktionsfähigen Website sowie unserer Inhalte und Leistungen erforderlich ist. Die Verarbeitung personenbezogener Daten erfolgt regelmäßig nur nach Einwilligung des Nutzers oder wenn die Verarbeitung durch gesetzliche Vorschriften gestattet ist.</p>
+
+    <h3 data-i18n="dse_h3">3. Kontaktformular</h3>
+    <p data-i18n="dse_p3">Wenn Sie uns über das Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse).</p>
+
+    <h3 data-i18n="dse_h4">4. Server-Logfiles</h3>
+    <p data-i18n="dse_p4">Der Provider der Seiten erhebt und speichert automatisch Informationen in Server-Log-Dateien, die Ihr Browser automatisch übermittelt. Dies sind: Browsertyp und Browserversion, verwendetes Betriebssystem, Referrer URL, Hostname des zugreifenden Rechners, Uhrzeit der Serveranfrage sowie IP-Adresse. Die Rechtsgrundlage hierfür ist Art. 6 Abs. 1 lit. f DSGVO.</p>
+
+    <h3 data-i18n="dse_h5">5. Google Fonts</h3>
+    <p data-i18n="dse_p5">Diese Seite nutzt zur einheitlichen Darstellung von Schriftarten Google Fonts, bereitgestellt von Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA. Beim Aufruf einer Seite lädt Ihr Browser die benötigten Fonts in Ihren Browsercache. Dabei wird Ihre IP-Adresse an Google übermittelt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Weitere Informationen finden Sie in der <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.</p>
+
+    <h3 data-i18n="dse_h6">6. Speicherdauer</h3>
+    <p data-i18n="dse_p6">Personenbezogene Daten werden gelöscht oder gesperrt, sobald der Zweck der Speicherung entfällt. Eine Speicherung kann darüber hinaus erfolgen, wenn dies durch den europäischen oder nationalen Gesetzgeber in unionsrechtlichen Verordnungen, Gesetzen oder sonstigen Vorschriften, denen der Verantwortliche unterliegt, vorgesehen wurde.</p>
+
+    <h3 data-i18n="dse_h7">7. Ihre Rechte (Art. 15–22 DSGVO)</h3>
+    <p data-i18n="dse_p7_intro">Sie haben gegenüber uns folgende Rechte hinsichtlich der Sie betreffenden personenbezogenen Daten:</p>
+    <ul>
+      <li data-i18n="dse_right1">Recht auf Auskunft (Art. 15 DSGVO)</li>
+      <li data-i18n="dse_right2">Recht auf Berichtigung (Art. 16 DSGVO)</li>
+      <li data-i18n="dse_right3">Recht auf Löschung (Art. 17 DSGVO)</li>
+      <li data-i18n="dse_right4">Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+      <li data-i18n="dse_right5">Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
+      <li data-i18n="dse_right6">Recht auf Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)</li>
+    </ul>
+
+    <h3 data-i18n="dse_h8">8. Beschwerderecht bei der Aufsichtsbehörde</h3>
+    <p data-i18n="dse_p8">Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde über die Verarbeitung Ihrer personenbezogenen Daten durch uns zu beschweren. Die zuständige Aufsichtsbehörde für Bayern ist das Bayerische Landesamt für Datenschutzaufsicht (BayLDA), Promenade 18, 91522 Ansbach.</p>
+
+    <h3 data-i18n="dse_h9">9. Keine automatisierte Entscheidungsfindung</h3>
+    <p data-i18n="dse_p9">Wir verzichten auf eine automatisierte Entscheidungsfindung oder ein Profiling gemäß Art. 22 DSGVO.</p>
+
+    <div class="lmodal-rule"></div>
+    <p style="font-size:11px;color:rgba(112,104,96,.4)" data-i18n="dse_updated">Stand: Juni 2026</p>
+  </div>
+</div>
+
+<script>
+/* CUSTOM SELECT */
+function toggleSel(btn){
+  const w=btn.closest('.csel');
+  document.querySelectorAll('.csel.open').forEach(o=>{if(o!==w)o.classList.remove('open')});
+  w.classList.toggle('open');
+}
+function pickSel(opt){
+  const w=opt.closest('.csel');
+  const v=w.querySelector('.csel-val');
+  v.textContent=opt.textContent;v.classList.add('chosen');
+  w.querySelector('.csel-input').value=opt.dataset.en||opt.textContent;
+  w.querySelectorAll('.csel-opt').forEach(o=>o.classList.remove('chosen'));
+  opt.classList.add('chosen');
+  w.classList.remove('open');
+}
+document.addEventListener('click',e=>{if(!e.target.closest('.csel'))document.querySelectorAll('.csel.open').forEach(o=>o.classList.remove('open'))});
+
+/* CURSOR */
+const c=document.getElementById('cur'),co=document.getElementById('cur-o');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;co.style.left=rx+'px';co.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button,.cut,.p-card,.stat,.cert,.pt,.her-img,.dist-img,.trait').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
+});
+document.querySelectorAll('input,textarea').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('ct'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('ct'));
+});
+
+/* PROGRESS */
+const bar=document.getElementById('prog');
+window.addEventListener('scroll',()=>{
+  bar.style.width=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100)+'%';
+},{passive:true});
+
+/* NAV */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('on',window.scrollY>60),{passive:true});
+
+/* PARALLAX */
+const heroBg=document.getElementById('heroBg');
+const landBg=document.getElementById('landBg');
+const anBg=document.getElementById('animalBg');
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY,vh=window.innerHeight;
+  if(y<vh*1.5)heroBg.style.transform=`translateY(${y*.3}px)`;
+  const land=document.getElementById('land');
+  if(land){const r=land.getBoundingClientRect();if(r.top<vh&&r.bottom>0)landBg.style.transform=`translateY(${-r.top*.25}px)`;}
+  const an=document.getElementById('animal');
+  if(an){const r=an.getBoundingClientRect();if(r.top<vh&&r.bottom>0)anBg.style.transform=`translateY(${-r.top*.2}px)`;}
+},{passive:true});
+
+/* REVEAL */
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('go')})},{threshold:.07,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv,.rvl,.rvr,.clip').forEach(el=>obs.observe(el));
+
+/* COUNTERS */
+function anim(el){
+  const t=+el.dataset.count,s=el.dataset.suffix||'',d=1800,st=performance.now();
+  (function tick(now){
+    const p=Math.min((now-st)/d,1),e=1-Math.pow(1-p,3);
+    el.textContent=Math.floor(e*t)+s;
+    if(p<1)requestAnimationFrame(tick);
+  })(st);
+}
+const cObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&e.target.dataset.count){anim(e.target);cObs.unobserve(e.target)}})},{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>cObs.observe(el));
+
+/* LEGAL MODALS */
+function openLegal(id){const m=document.getElementById('modal-'+id);m.classList.add('on');document.body.style.overflow='hidden'}
+function closeLegal(id){const m=document.getElementById('modal-'+id);m.classList.remove('on');document.body.style.overflow=''}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.lmodal.on').forEach(m=>{m.classList.remove('on');document.body.style.overflow=''})});
+
+/* MOBILE */
+function tmob(){document.getElementById('mob').classList.toggle('on');document.getElementById('ham').classList.toggle('on')}
+function cmob(){document.getElementById('mob').classList.remove('on');document.getElementById('ham').classList.remove('on')}
+
+/* SCROLL */
+function scroll2(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'})}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth'});
+  });
+});
+
+/* LANGUAGE */
+const tx={
+  en:{
+    nav_heritage:'Heritage',nav_animal:'The Animal',nav_products:'Products',nav_dist:'Distribution',nav_contact:'Contact',nav_cta:'Become a Partner',
+    scroll_lbl:'Scroll',
+    hero_eye:'Argentine Premium Angus Beef',hero_title:'From the Pampas<br><em>to the World</em>',hero_sub:'<span style="color:var(--gold)">ANGELLUS</span> sources the finest Argentine Angus beef, delivering exceptional quality to premium customers and luxury restaurants worldwide.',hero_btn1:'Explore Our Products',hero_btn2:'Become a Partner',
+    tick1:'Argentine Premium Angus',tick2:'Grass-Fed & 90-Day Grain-Finished',tick3:'EU Export Certified',tick4:'Full Chain Traceability',tick5:'Premium Cold-Chain Logistics',tick6:'Global Distribution',tick7:'Halal & Kosher Certified',tick8:'Headquartered in Germany',
+    land_tag:'The Land',land_h:'Where the Pampas<br><em>Shapes Every Cut</em>',land_p:"Argentina's Pampas region — one of the world's most fertile grasslands — provides the singular environment in which <span style=\"color:var(--gold)\">ANGELLUS</span> cattle are raised. Stretching endlessly beneath an open sky, this is the land that makes our beef unlike any other.",land_l1:'Hectares of Pampas Grassland',land_l2:'Years of Ranching Heritage',land_l3:'Avg. Annual Temperature',land_l4:'Precision Grain Finish',
+    her_eye:'Our Heritage',her_h:'Tradition<br><em>Centuries Deep</em>',her_p1:"Argentina's relationship with cattle runs deeper than commerce — it is woven into the national identity. For generations, the gaucho has shaped a culture of respect for the land and the animal, a tradition passed down through ranching families across the boundless Pampas.",her_q:'"The Pampas do not merely feed cattle — they shape them. Wind, grass, and time create something no feedlot ever could."',her_p2:"The unique temperate climate, nutrient-rich grasslands, and wide open expanses of the Argentine Pampas produce cattle of unmatched quality. This is not simply a supply chain. It is a living heritage — and <span style=\"color:var(--gold)\">ANGELLUS</span> is its global ambassador.",
+    an_eye:'The Animal',an_h:'The Argentine<br><em>Black Angus</em>',an_p:'The Angus breed — naturally polled, solid black, compact and muscular — thrives in the Argentine Pampas like nowhere else on earth. Combined with the unique grassland terroir and our precise grain-finishing program, <span style="color:var(--gold)">ANGELLUS</span> Angus produce beef of extraordinary consistency, marbling, and depth of flavour.',trait1_t:'Naturally Hornless',trait1_d:'The Angus breed is genetically polled — born without horns, reducing stress and making animal welfare management superior by design.',trait2_t:'Superior Marbling',trait2_d:'Angus genetics produce exceptional intramuscular fat distribution, delivering the consistent marbling and tenderness demanded by fine dining and premium retail.',trait3_t:'Pampas-Adapted',trait3_d:'Centuries of selective ranching in the Argentine climate have produced cattle uniquely adapted to the Pampas environment, resulting in deeper flavour and finer grain.',trait4_t:'Consistent Yield',trait4_d:'<span style="color:var(--gold)">ANGELLUS</span> selects only the top percentile of Angus genetics. Every consignment meets the same exacting weight, grading, and quality benchmarks — without exception.',
+    phil_eye:'Our Philosophy',phil_h:'Nature, Tradition,<br><em>Precision</em>',phil_p:"Every decision we make — from the ranches we select to the cuts we supply — flows from one conviction: that the world's finest beef comes from animals raised with patience, purpose, and profound respect for nature's process.",p1_t:'Grass-Fed Origins',p1_d:'Every <span style="color:var(--gold)">ANGELLUS</span> animal begins life on open Pampas grassland, grazing freely on natural pasture. This foundation builds deep flavour, lean muscle, and the character that defines true Argentine beef.',p2_t:'Stress-Free Ranching',p2_d:'We partner exclusively with ranches that uphold the highest standards of animal welfare. Stress-free environments produce calmer animals — and calmer animals produce cleaner, more consistent meat.',p3_t:'90-Day Grain Finish',p3_d:'Following the grass-fed phase, our cattle undergo a precisely managed 90-day grain-finishing program. The result is consistent marbling, exceptional tenderness, and rich depth of flavour.',p4_t:'Uncompromising Selection',p4_d:'Only cattle meeting our strict genetic and quality benchmarks enter the <span style="color:var(--gold)">ANGELLUS</span> program. Premium Angus genetics, combined with the Pampas environment, yield a product that stands apart in any market.',
+    mani_q:"The world's great kitchens<br>do not compromise.<br>Neither do we.",mani_a:'— ANGELLUS, Argentina',
+    tr_eye:'Full Traceability',tr_h:'From Ranch<br><em>to Table</em>',tr_p:'Transparency is not a feature — it is the foundation of <span style="color:var(--gold)">ANGELLUS</span>. Every cut we supply carries a complete, verifiable record of its origin, care, and journey. Our partners trust us because we leave nothing to assumption.',step1_h:'Ranch Selection',step1_p:"We work exclusively with a curated network of certified ranch partners across Argentina's prime beef regions, evaluated for genetics, land quality, and animal welfare standards.",step2_h:'Animal Traceability',step2_p:'Each animal is individually tracked from birth through to processing. Full documentation accompanies every consignment, providing complete provenance records.',step3_h:'Quality Inspection',step3_p:'Strict grading and quality control at every stage. Only cuts meeting our exacting marbling, weight, and consistency standards carry the <span style="color:var(--gold)">ANGELLUS</span> name.',step4_h:'Export Certification',step4_p:'All <span style="color:var(--gold)">ANGELLUS</span> products comply with EU, US, and global food safety standards, ensuring seamless entry into every market we serve worldwide.',
+    prod_eye:'Our Products',prod_h:'The Finest<br><em>Argentine Cuts</em>',prod_p:"<span style=\"color:var(--gold)\">ANGELLUS</span> specializes in rump and loin cuts — the crown of Argentine beef culture. Each cut is selected for its individual character and prepared to meet the demands of the world's most discerning chefs and distributors.",cut1_tag:'Tenderloin',cut1_sub:'Tenderloin Strap Off',cut1_d:'The pinnacle of refinement. Stripped of its strap for a perfectly clean presentation, delivering incomparable tenderness and a delicate, buttery flavour prized by the finest kitchens worldwide.',cut2_tag:'Striploin',cut2_sub:'Striploin 4 Ribs Strap On',cut2_d:"Argentina's signature loin cut, presented with 4 ribs and strap on for maximum flavour impact. Firm yet tender, with a bold, characterful taste that has defined Argentine beef culture for generations.",cut3_tag:'Rump',cut3_sub:'Heart of Rump',cut3_d:'The heart of the rump — lean, clean, and intensely flavoured. A versatile premium cut respected by butchers and chefs alike for its consistent texture and exceptional depth of taste.',cut4_tag:'Cube Roll',cut4_sub:'Cube Roll 5 Ribs Strap Off',cut4_d:'Rich intramuscular marbling across 5 ribs, strap off for a refined finish. Delivers unmatched juiciness, a deep aromatic flavour, and the consistency demanded by elite distributors globally.',cut5_tag:'Cap of Rump',cut5_sub:'Cap of Rump — Picanha',cut5_d:"One of the most prized cuts in global luxury markets. Defined by its distinctive fat cap and bold, rich flavour — a celebrated centrepiece of Argentine grilling tradition and the world's finest restaurants.",cut6_tag:'Tail of Rump',cut6_sub:'Tail of Rump',cut6_d:'A compact, richly flavoured cut from the tail of the rump. Highly valued for its intense taste and fine grain — rewards slow cooking and precision preparation in equal measure.',
+    cert_eye:'Certifications',cert_h:'Quality You Can <em>Verify.</em>',cert_halal:'Halal Certified',cert_kosher:'Kosher Certified',cert_hqb:'High Quality Beef',cert_angus:'Argentine Angus Beef',cert_organic:'Organic Certified',cert_best:'Best Beef on Earth',cert7:'BCR Certified',cert8:'SGS Certified',
+    dist_eye:'Global Distribution',dist_h:'Delivered<br><em>Everywhere</em>',dist_p1:'<span style="color:var(--gold)">ANGELLUS</span> operates a precision cold-chain logistics network built for the demands of premium international distribution. From processing in Argentina to delivery in Europe, Asia, and the Middle East, every link is managed with the same care as the product itself.',dist_p2:'Our export certifications cover all major markets. Logistics partners are selected for cold-chain expertise and reliability. Your supply is consistent. Your product arrives perfect.',dist_l1:'Export Markets',dist_l2:'Cold-Chain Certified',dist_l3:'Certified & Compliant',dist_l4:'Munich, Germany',
+    par_eye:'Partner With ANGELLUS',par_h:'The Standard<br><em>Your Clients Expect</em>',par_p1:'Whether you are a premium meat distributor, a gourmet importer, a luxury restaurant group, or a hospitality company, <span style="color:var(--gold)">ANGELLUS</span> offers the consistency, traceability, and prestige your most discerning clients demand.',par_p2:'We build long-term relationships with partners who share our commitment to quality. Supply reliability, export expertise, and a product that carries genuine provenance — this is what a partnership with <span style="color:var(--gold)">ANGELLUS</span> delivers.',par_btn1:'Enquire Now',par_btn2:'View Products',
+    con_eye:'Contact',con_h:'Begin a<br><em>Conversation</em>',con_p:'Our team is based in Germany and works with partners across the globe. We welcome enquiries from qualified distributors, importers, restaurant groups, and hospitality companies.',con_email_l:'Email',con_phone_l:'Phone',con_hq_l:'Headquarters',form_fname:'First Name',form_lname:'Last Name',form_company:'Company',form_email:'Email Address',form_enq:'Enquiry Type',form_msg:'Message',form_submit:'Send Enquiry',sel_default:'Select an option',opt1:'Partnership / Distribution',opt2:'Product Enquiry',opt3:'Import / Export',opt4:'Restaurant / Hospitality',opt5:'Other',ph_fname:'James',ph_lname:'Anderson',ph_company:'Anderson Premium Foods GmbH',ph_email:'j.anderson@company.com',ph_msg:'Please describe your requirements and market...',
+    foot_sub:'Argentine Premium Angus Beef',foot_copy:'© 2026 ANGELLUS. All rights reserved.',
+    legal_impressum:'Legal Notice',legal_privacy:'Privacy Policy',
+    imp_title:'Legal Notice',imp_h1:'Information pursuant to § 5 TMG',imp_h2:'Represented by',imp_rep:'[Name of Managing Director]',imp_h3:'Contact',imp_phone_lbl:'Phone:',imp_email_lbl:'Email:',imp_h4:'Commercial Register',imp_reg:'Registration number: [HRB XXXXX]<br>Register court: Munich District Court',imp_h5:'VAT ID',imp_vat:'VAT identification number pursuant to § 27a of the German VAT Act: DE[XXXXXXXXX]',imp_h6:'Responsible for content pursuant to § 55 para. 2 RStV',imp_resp:'[Name and address of the responsible person]',imp_h7:'Disclaimer',imp_disc1:'The content of this website has been compiled with the utmost care. However, ANGELLUS cannot guarantee the accuracy, completeness or up-to-date nature of the content provided. Use of the website content is at the user\'s own risk.',imp_disc2:'As a service provider, we are responsible for our own content on these pages in accordance with § 7 para. 1 TMG under general law. According to §§ 8 to 10 TMG, however, we are not obliged to monitor transmitted or stored third-party information.',imp_h8:'Copyright',imp_copy:'The content and works created by the site operators on these pages are subject to German copyright law. Reproduction, editing, distribution and any kind of exploitation outside the limits of copyright law require the written consent of the respective author.',
+    dse_title:'Privacy Policy',dse_h1:'1. Controller',dse_p1:'The controller within the meaning of the General Data Protection Regulation (GDPR) is:<br>ANGELLUS, [Street], [Postcode] Munich, Germany<br>Email: <a href="mailto:angellus.info@gmail.com">angellus.info@gmail.com</a><br>Phone: <a href="tel:+4915116984951">+49 151 169 84951</a>',dse_h2:'2. Collection and Processing of Personal Data',dse_p2:'We process personal data only to the extent necessary to provide a functional website and our content and services. Personal data is regularly processed only with the user\'s consent or where processing is permitted by law.',dse_h3:'3. Contact Form',dse_p3:'If you send us enquiries via the contact form, your details from the enquiry form, including the contact details you provide, will be stored for the purpose of processing the enquiry and in the event of follow-up questions. The legal basis is Art. 6(1)(b) GDPR (pre-contractual measures) and Art. 6(1)(f) GDPR (legitimate interest).',dse_h4:'4. Server Log Files',dse_p4:'The provider of the pages automatically collects and stores information in server log files which your browser automatically transmits. This includes: browser type and version, operating system used, referrer URL, hostname of the accessing computer, time of the server request, and IP address. The legal basis is Art. 6(1)(f) GDPR.',dse_h5:'5. Google Fonts',dse_p5:'This site uses Google Fonts for uniform display of fonts, provided by Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA. When you access a page, your browser loads the required fonts into its browser cache, transmitting your IP address to Google. The legal basis is Art. 6(1)(f) GDPR. For more information, see <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google\'s Privacy Policy</a>.',dse_h6:'6. Retention Period',dse_p6:'Personal data is deleted or blocked as soon as the purpose of storage ceases. Storage may also occur if provided for by European or national legislation.',dse_h7:'7. Your Rights (Art. 15–22 GDPR)',dse_p7_intro:'You have the following rights regarding your personal data:',dse_right1:'Right of access (Art. 15 GDPR)',dse_right2:'Right to rectification (Art. 16 GDPR)',dse_right3:'Right to erasure (Art. 17 GDPR)',dse_right4:'Right to restriction of processing (Art. 18 GDPR)',dse_right5:'Right to data portability (Art. 20 GDPR)',dse_right6:'Right to object to processing (Art. 21 GDPR)',dse_h8:'8. Right to Lodge a Complaint',dse_p8:'You have the right to lodge a complaint with a data protection supervisory authority regarding our processing of your personal data. The competent authority for Bavaria is the Bavarian State Office for Data Protection Supervision (BayLDA), Promenade 18, 91522 Ansbach.',dse_h9:'9. No Automated Decision-Making',dse_p9:'We do not use automated decision-making or profiling pursuant to Art. 22 GDPR.',dse_updated:'Last updated: June 2026'
+  },
+  de:{
+    nav_heritage:'Erbe',nav_animal:'Das Tier',nav_products:'Produkte',nav_dist:'Vertrieb',nav_contact:'Kontakt',nav_cta:'Partner werden',
+    scroll_lbl:'Scrollen',
+    hero_eye:'Argentinisches Premium Angus Rindfleisch',hero_title:'Von der Pampa<br><em>in die Welt</em>',hero_sub:'<span style="color:var(--gold)">ANGELLUS</span> bezieht das feinste argentinische Angus-Rindfleisch und beliefert Premium-Kunden und Luxusrestaurants weltweit.',hero_btn1:'Produkte entdecken',hero_btn2:'Partner werden',
+    tick1:'Argentinisches Premium Angus',tick2:'Grasgenährt & 90-Tage-Getreidefinish',tick3:'EU-Exportzertifiziert',tick4:'Lückenlose Rückverfolgbarkeit',tick5:'Premium-Kühlketten-Logistik',tick6:'Globaler Vertrieb',tick7:'Halal & Koscher Zertifiziert',tick8:'Hauptsitz in Deutschland',
+    land_tag:'Das Land',land_h:'Wo die Pampa<br><em>jeden Schnitt formt</em>',land_p:'Die argentinische Pampa — eine der fruchtbarsten Graslandschaften der Welt — bietet die einzigartige Umgebung, in der <span style="color:var(--gold)">ANGELLUS</span>-Rinder aufgezogen werden. Endlos unter einem weiten Himmel erstreckt, ist dies das Land, das unser Rindfleisch unvergleichlich macht.',land_l1:'Hektar Pampa-Grasland',land_l2:'Jahre Ranching-Tradition',land_l3:'Durchschn. Jahrestemperatur',land_l4:'Präzisions-Getreidefinish',
+    her_eye:'Unser Erbe',her_h:'Tradition<br><em>seit Jahrhunderten</em>',her_p1:'Argentiniens Beziehung zum Rind reicht tiefer als der Handel — sie ist in die nationale Identität eingewoben. Seit Generationen hat der Gaucho eine Kultur des Respekts gegenüber dem Land und dem Tier geprägt, eine Tradition, die in Rancherfamilien über die grenzenlose Pampa weitergegeben wird.',her_q:'"Die Pampa nährt Rinder nicht nur — sie formt sie. Wind, Gras und Zeit erschaffen etwas, das kein Feedlot je könnte."',her_p2:'Das einzigartige gemäßigte Klima, die nährstoffreichen Graslandschaften und die weiten Flächen der argentinischen Pampa bringen Rinder von unübertroffener Qualität hervor. Dies ist nicht einfach eine Lieferkette. Es ist ein lebendiges Erbe — und <span style="color:var(--gold)">ANGELLUS</span> ist sein globaler Botschafter.',
+    an_eye:'Das Tier',an_h:'Das argentinische<br><em>Black Angus</em>',an_p:'Die Angus-Rasse — von Natur aus hornlos, tiefschwarz, kompakt und muskulös — gedeiht in der argentinischen Pampa wie nirgendwo sonst auf der Erde. Kombiniert mit dem einzigartigen Grasland-Terroir und unserem präzisen Getreidefinish-Programm produzieren <span style="color:var(--gold)">ANGELLUS</span>-Angus-Rinder Rindfleisch von außergewöhnlicher Konsistenz, Marmorierung und Geschmackstiefe.',trait1_t:'Von Natur aus hornlos',trait1_d:'Die Angus-Rasse ist genetisch hornlos — ohne Hörner geboren, was Stress reduziert und das Tierschutzmanagement von Natur aus überlegen macht.',trait2_t:'Überlegene Marmorierung',trait2_d:'Angus-Genetik erzeugt eine außergewöhnliche intramuskuläre Fettverteilung und liefert die gleichmäßige Marmorierung und Zartheit, die von der Spitzengastronomie und dem Premium-Einzelhandel gefordert wird.',trait3_t:'Pampa-angepasst',trait3_d:'Jahrhunderte selektiver Rinderzucht im argentinischen Klima haben Rinder hervorgebracht, die einzigartig an die Pampa-Umgebung angepasst sind, was zu tieferem Geschmack und feinerem Fleisch führt.',trait4_t:'Konstante Ausbeute',trait4_d:'<span style="color:var(--gold)">ANGELLUS</span> wählt nur das oberste Perzentil der Angus-Genetik aus. Jede Lieferung erfüllt dieselben strengen Gewichts-, Qualitäts- und Gütekriterien — ausnahmslos.',
+    phil_eye:'Unsere Philosophie',phil_h:'Natur, Tradition,<br><em>Präzision</em>',phil_p:'Jede Entscheidung, die wir treffen — von den Ranches, die wir auswählen, bis zu den Schnitten, die wir liefern — folgt einer Überzeugung: dass das feinste Rindfleisch der Welt von Tieren stammt, die mit Geduld, Sorgfalt und tiefem Respekt vor der Natur aufgezogen werden.',p1_t:'Grasgenährte Ursprünge',p1_d:'Jedes <span style="color:var(--gold)">ANGELLUS</span>-Tier beginnt sein Leben auf offenem Pampa-Grasland und weidet frei auf natürlichen Weiden. Diese Grundlage schafft tiefen Geschmack, schlanke Muskeln und den Charakter, der echtes argentinisches Rindfleisch ausmacht.',p2_t:'Stressfreie Rinderhaltung',p2_d:'Wir arbeiten ausschließlich mit Ranches zusammen, die die höchsten Tierschutzstandards einhalten. Stressfreie Umgebungen erzeugen ruhigere Tiere — und ruhigere Tiere liefern saubereres, konsistenteres Fleisch.',p3_t:'90-Tage-Getreidefinish',p3_d:'Nach der Graslandphase durchlaufen unsere Rinder ein präzise gesteuertes 90-tägiges Getreidefinish-Programm. Das Ergebnis ist gleichmäßige Marmorierung, außergewöhnliche Zartheit und reiche Geschmackstiefe.',p4_t:'Kompromisslose Auswahl',p4_d:'Nur Rinder, die unsere strengen Genetik- und Qualitätskriterien erfüllen, kommen in das <span style="color:var(--gold)">ANGELLUS</span>-Programm. Premium-Angus-Genetik, kombiniert mit der Pampa-Umgebung, ergibt ein Produkt, das sich auf jedem Markt abhebt.',
+    mani_q:'Die großen Küchen der Welt<br>machen keine Kompromisse.<br>Wir auch nicht.',mani_a:'— ANGELLUS, Argentinien',
+    tr_eye:'Vollständige Rückverfolgbarkeit',tr_h:'Von der Ranch<br><em>zum Tisch</em>',tr_p:'Transparenz ist kein Merkmal — sie ist das Fundament von <span style="color:var(--gold)">ANGELLUS</span>. Jeder Schnitt, den wir liefern, trägt eine vollständige, überprüfbare Aufzeichnung seiner Herkunft, Pflege und Reise. Unsere Partner vertrauen uns, weil wir nichts dem Zufall überlassen.',step1_h:'Ranch-Auswahl',step1_p:"Wir arbeiten ausschließlich mit einem kuratierten Netzwerk zertifizierter Ranch-Partner in Argentiniens besten Rindfleischregionen zusammen, bewertet nach Genetik, Landqualität und Tierschutzstandards.",step2_h:'Tier-Rückverfolgbarkeit',step2_p:'Jedes Tier wird von der Geburt bis zur Verarbeitung individuell verfolgt. Vollständige Dokumentation begleitet jede Lieferung und liefert lückenlose Herkunftsnachweise.',step3_h:'Qualitätskontrolle',step3_p:'Strenge Klassifizierung und Qualitätskontrolle auf jeder Stufe. Nur Schnitte, die unsere strengen Marmorierungs-, Gewichts- und Konsistenzstandards erfüllen, tragen den Namen <span style="color:var(--gold)">ANGELLUS</span>.',step4_h:'Exportzertifizierung',step4_p:'Alle <span style="color:var(--gold)">ANGELLUS</span>-Produkte entsprechen den EU-, US- und globalen Lebensmittelsicherheitsstandards und gewährleisten einen reibungslosen Markteintritt weltweit.',
+    prod_eye:'Unsere Produkte',prod_h:'Die feinsten<br><em>argentinischen Schnitte</em>',prod_p:'<span style="color:var(--gold)">ANGELLUS</span> ist auf Hüft- und Lendenschnitte spezialisiert — die Krone der argentinischen Rindfleischkultur. Jeder Schnitt wird für seinen individuellen Charakter ausgewählt und vorbereitet, um den Ansprüchen der anspruchsvollsten Köche und Händler der Welt gerecht zu werden.',cut1_tag:'Filet',cut1_sub:'Filet ohne Sehne',cut1_d:'Der Höhepunkt der Raffinesse. Von seiner Sehne befreit für eine perfekt saubere Präsentation, liefert er unvergleichliche Zartheit und einen delikaten, buttrigen Geschmack, der von den feinsten Küchen weltweit geschätzt wird.',cut2_tag:'Roastbeef',cut2_sub:'Roastbeef 4 Rippen mit Sehne',cut2_d:'Argentiniens charakteristischer Lendenschnitt, mit 4 Rippen und Sehne für maximalen Geschmackseinfluss. Fest und dennoch zart, mit einem kühnen, charaktervollen Geschmack, der die argentinische Rindfleischkultur seit Generationen prägt.',cut3_tag:'Hüfte',cut3_sub:'Hüftkern',cut3_d:'Das Herz der Hüfte — mager, sauber und intensiv aromatisch. Ein vielseitiger Premium-Schnitt, der von Metzgern und Köchen für seine gleichmäßige Textur und außergewöhnliche Geschmackstiefe geschätzt wird.',cut4_tag:'Hochrippe',cut4_sub:'Hochrippe 5 Rippen ohne Sehne',cut4_d:'Reiche intramuskuläre Marmorierung über 5 Rippen, ohne Sehne für ein verfeinertes Finish. Liefert unübertroffene Saftigkeit, ein tiefes aromatisches Aroma und die Konsistenz, die von Elite-Händlern weltweit gefordert wird.',cut5_tag:'Hüftdeckel',cut5_sub:'Hüftdeckel — Picanha',cut5_d:'Einer der begehrtesten Schnitte auf globalen Luxusmärkten. Definiert durch seine charakteristische Fettkappe und seinen kühnen, reichen Geschmack — ein gefeiertes Herzstück der argentinischen Grillkultur.',cut6_tag:'Hüftzapfen',cut6_sub:'Hüftzapfen',cut6_d:'Ein kompakter, reich aromatischer Schnitt vom Hüftzapfen. Hochgeschätzt für seinen intensiven Geschmack und sein feines Korn — lohnt langsames Garen und präzise Zubereitung gleichermaßen.',
+    cert_eye:'Zertifizierungen',cert_h:'Qualität, die Sie <em>überprüfen können.</em>',cert_halal:'Halal Zertifiziert',cert_kosher:'Koscher Zertifiziert',cert_hqb:'Hochwertigstes Rindfleisch',cert_angus:'Argentinisches Angus Rindfleisch',cert_organic:'Bio-Zertifiziert',cert_best:'Bestes Rindfleisch der Welt',cert7:'BCR Zertifiziert',cert8:'SGS Zertifiziert',
+    dist_eye:'Globaler Vertrieb',dist_h:'Überall<br><em>geliefert</em>',dist_p1:'<span style="color:var(--gold)">ANGELLUS</span> betreibt ein präzises Kühlketten-Logistiknetzwerk für die Anforderungen des internationalen Premium-Vertriebs. Von der Verarbeitung in Argentinien bis zur Lieferung in Europa, Asien und dem Nahen Osten wird jedes Glied mit der gleichen Sorgfalt wie das Produkt selbst verwaltet.',dist_p2:'Unsere Exportzertifizierungen decken alle wichtigen Märkte ab. Logistikpartner werden nach Kühlketten-Expertise und Zuverlässigkeit ausgewählt. Ihre Versorgung ist konstant. Ihr Produkt kommt perfekt an.',dist_l1:'Exportmärkte',dist_l2:'Kühlketten-Zertifiziert',dist_l3:'Zertifiziert & Konform',dist_l4:'Deutschland, Europa',
+    par_eye:'Partner von ANGELLUS werden',par_h:'Der Standard,<br><em>den Ihre Kunden erwarten</em>',par_p1:'Ob Sie ein Premium-Fleischhändler, ein Gourmet-Importeur, eine Luxusrestaurantgruppe oder ein Hospitality-Unternehmen sind — <span style="color:var(--gold)">ANGELLUS</span> bietet die Konsistenz, Rückverfolgbarkeit und das Prestige, das Ihre anspruchsvollsten Kunden verlangen.',par_p2:'Wir bauen langfristige Beziehungen zu Partnern auf, die unser Engagement für Qualität teilen. Versorgungssicherheit, Exportkompetenz und ein Produkt mit echter Herkunft — das ist es, was eine Partnerschaft mit <span style="color:var(--gold)">ANGELLUS</span> liefert.',par_btn1:'Jetzt anfragen',par_btn2:'Produkte ansehen',
+    con_eye:'Kontakt',con_h:'Beginnen Sie<br><em>ein Gespräch</em>',con_p:'Unser Team ist in Deutschland ansässig und arbeitet mit Partnern auf der ganzen Welt zusammen. Wir begrüßen Anfragen von qualifizierten Händlern, Importeuren, Restaurantgruppen und Hospitality-Unternehmen.',con_email_l:'E-Mail',con_phone_l:'Telefon',con_hq_l:'Hauptsitz',form_fname:'Vorname',form_lname:'Nachname',form_company:'Unternehmen',form_email:'E-Mail-Adresse',form_enq:'Anfrageart',form_msg:'Nachricht',form_submit:'Anfrage senden',sel_default:'Option wählen',opt1:'Partnerschaft / Vertrieb',opt2:'Produktanfrage',opt3:'Import / Export',opt4:'Restaurant / Gastronomie',opt5:'Sonstiges',ph_fname:'Hans',ph_lname:'Müller',ph_company:'Müller Premium Foods GmbH',ph_email:'h.mueller@unternehmen.de',ph_msg:'Bitte beschreiben Sie Ihre Anforderungen und Ihren Markt...',
+    foot_sub:'Argentinisches Premium Angus Rindfleisch',foot_copy:'© 2026 ANGELLUS. Alle Rechte vorbehalten.',
+    legal_impressum:'Impressum',legal_privacy:'Datenschutzerklärung',
+    imp_title:'Impressum',imp_h1:'Angaben gemäß § 5 TMG',imp_h2:'Vertreten durch',imp_rep:'[Name des Geschäftsführers]',imp_h3:'Kontakt',imp_phone_lbl:'Telefon:',imp_email_lbl:'E-Mail:',imp_h4:'Handelsregister',imp_reg:'Registernummer: [HRB XXXXX]<br>Registergericht: Amtsgericht München',imp_h5:'Umsatzsteuer-ID',imp_vat:'Umsatzsteuer-Identifikationsnummer gemäß § 27 a UStG: DE[XXXXXXXXX]',imp_h6:'Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV',imp_resp:'[Name und Anschrift der verantwortlichen Person]',imp_h7:'Haftungsausschluss',imp_disc1:'Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. ANGELLUS übernimmt jedoch keine Gewähr für die Richtigkeit, Vollständigkeit und Aktualität der bereitgestellten Inhalte. Die Nutzung der Inhalte der Website erfolgt auf eigene Gefahr des Nutzers.',imp_disc2:'Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen.',imp_h8:'Urheberrecht',imp_copy:'Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors.',
+    dse_title:'Datenschutzerklärung',dse_h1:'1. Verantwortlicher',dse_p1:'Verantwortlicher im Sinne der DSGVO ist:<br>ANGELLUS, [Straße], [PLZ] München, Deutschland<br>E-Mail: <a href="mailto:angellus.info@gmail.com">angellus.info@gmail.com</a><br>Telefon: <a href="tel:+4915116984951">+49 151 169 84951</a>',dse_h2:'2. Erhebung und Verarbeitung personenbezogener Daten',dse_p2:'Wir verarbeiten personenbezogene Daten nur, soweit dies zur Bereitstellung einer funktionsfähigen Website sowie unserer Inhalte und Leistungen erforderlich ist. Die Verarbeitung erfolgt regelmäßig nur nach Einwilligung des Nutzers oder wenn sie gesetzlich gestattet ist.',dse_h3:'3. Kontaktformular',dse_p3:'Wenn Sie uns über das Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage gespeichert. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO sowie Art. 6 Abs. 1 lit. f DSGVO.',dse_h4:'4. Server-Logfiles',dse_p4:'Der Provider der Seiten erhebt und speichert automatisch Informationen in Server-Log-Dateien. Dies sind: Browsertyp und -version, Betriebssystem, Referrer URL, Hostname, Uhrzeit der Serveranfrage sowie IP-Adresse. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.',dse_h5:'5. Google Fonts',dse_p5:'Diese Seite nutzt Google Fonts von Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA. Beim Aufruf wird Ihre IP-Adresse an Google übermittelt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Weitere Informationen: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.',dse_h6:'6. Speicherdauer',dse_p6:'Personenbezogene Daten werden gelöscht oder gesperrt, sobald der Zweck der Speicherung entfällt, es sei denn, gesetzliche Aufbewahrungspflichten stehen dem entgegen.',dse_h7:'7. Ihre Rechte (Art. 15–22 DSGVO)',dse_p7_intro:'Sie haben gegenüber uns folgende Rechte hinsichtlich der Sie betreffenden personenbezogenen Daten:',dse_right1:'Recht auf Auskunft (Art. 15 DSGVO)',dse_right2:'Recht auf Berichtigung (Art. 16 DSGVO)',dse_right3:'Recht auf Löschung (Art. 17 DSGVO)',dse_right4:'Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)',dse_right5:'Recht auf Datenübertragbarkeit (Art. 20 DSGVO)',dse_right6:'Widerspruchsrecht (Art. 21 DSGVO)',dse_h8:'8. Beschwerderecht bei der Aufsichtsbehörde',dse_p8:'Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Zuständig für Bayern: Bayerisches Landesamt für Datenschutzaufsicht (BayLDA), Promenade 18, 91522 Ansbach.',dse_h9:'9. Keine automatisierte Entscheidungsfindung',dse_p9:'Wir verzichten auf automatisierte Entscheidungsfindung oder Profiling gemäß Art. 22 DSGVO.',dse_updated:'Stand: Juni 2026'
+  }
+};
+
+function setLang(l){
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelector(`.lang-btn[onclick*="'${l}'"]`).classList.add('on');
+  const d=tx[l];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.dataset.i18n;
+    if(d[k]!==undefined){
+      if(el.classList.contains('csel-val')&&el.classList.contains('chosen'))return;
+      el.textContent=d[k];
+    }
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+    const k=el.dataset.i18nHtml;
+    if(d[k]!==undefined)el.innerHTML=d[k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const k=el.dataset.i18nPh;
+    if(d[k]!==undefined)el.placeholder=d[k];
+  });
+}
+
+// Contact form submission
+(function(){
+  var form=document.getElementById('contactForm');
+  var success=document.getElementById('formSuccess');
+  var btn=document.getElementById('formSubmitBtn');
+  if(!form)return;
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+    var orig=btn.innerHTML;
+    btn.innerHTML='<span style="letter-spacing:.2em;opacity:.7">Sending…</span>';
+    btn.disabled=true;
+    try{
+      var res=await fetch('https://api.web3forms.com/submit',{
+        method:'POST',
+        body:new FormData(form)
+      });
+      var data=await res.json();
+      if(data.success){
+        form.style.display='none';
+        success.style.display='block';
+      }else{
+        btn.innerHTML=orig;
+        btn.disabled=false;
+        alert('Something went wrong. Please try again or email us directly at angellus.info@gmail.com');
+      }
+    }catch(err){
+      btn.innerHTML=orig;
+      btn.disabled=false;
+      alert('Something went wrong. Please try again or email us directly at angellus.info@gmail.com');
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
