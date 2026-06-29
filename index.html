@@ -415,11 +415,26 @@ footer{background:var(--black);border-top:1px solid var(--edge);padding:4rem 5re
   .hero-c{padding:5.5rem 1.5rem 2.5rem}
   .hero-brand{margin:0 auto 1.5rem}
   .hero-brand-line{margin-top:1rem;padding:0 1.5rem}
-  .hero-logo{max-height:120px;width:auto;max-width:55vw}
+  .hero-logo{max-height:150px;width:auto;max-width:60vw}
   .hero-sub{font-size:14px;max-width:100%}
 
   /* Manifesto watermark — smaller on mobile */
   .mani-bg{font-size:clamp(60px,15vw,120px)}
+
+  /* Land — text above the bottom gradient overlay + better contrast */
+  .land-c{z-index:3}
+  .land-p{color:rgba(237,232,224,.85)}
+
+  /* Body / paragraph text — more readable on small screens */
+  .body{color:rgba(200,191,178,.92)}
+  .t-p,.trait-d,.p-d{color:rgba(200,191,178,.88)}
+
+  /* Products — always show descriptions (no hover on touch) */
+  .cut-d{max-height:none;opacity:1;margin-top:.85rem;color:rgba(200,191,178,.85)}
+  .cut-body{border-bottom-color:rgba(196,151,63,.25)}
+
+  /* Traceability — tighten step gap */
+  .t-step{gap:1.5rem}
 }
 
 @media(max-width:600px){
@@ -474,7 +489,7 @@ footer{background:var(--black);border-top:1px solid var(--edge);padding:4rem 5re
   /* Hero brand */
   .hero-brand{margin:0 auto 1.25rem}
   .hero-brand-line{margin-top:.85rem;padding:0 1rem}
-  .hero-logo{max-height:105px;width:auto;max-width:52vw}
+  .hero-logo{max-height:132px;width:auto;max-width:56vw}
   .hero-c{padding:5rem 1.25rem 2rem}
 
   /* Stronger overlays for mobile readability */
@@ -486,6 +501,25 @@ footer{background:var(--black);border-top:1px solid var(--edge);padding:4rem 5re
   .land-stat{border-right:none;border-bottom:1px solid rgba(196,151,63,.12);padding:1.5rem 1rem;margin-right:0}
   .land-stat:nth-child(odd){border-right:1px solid rgba(196,151,63,.12)}
   .land-stat:nth-child(3),.land-stat:nth-child(4){border-bottom:none;padding-bottom:1.5rem}
+
+  /* Land text — brighter and larger for readability */
+  .land-p{color:rgba(237,232,224,.92);font-size:14px;line-height:1.95}
+  .land-h{text-shadow:0 2px 20px rgba(0,0,0,.8)}
+  .land-tag{opacity:1}
+
+  /* Animal — stronger overlay on tiny screens */
+  .animal-fade{background:linear-gradient(to bottom,rgba(5,5,5,.45) 0%,rgba(5,5,5,.78) 100%)}
+
+  /* Philosophy cards — tighter */
+  .p-card{padding:2rem 1.5rem}
+
+  /* Cert labels */
+  .cert-l{font-size:11px}
+  .cert{padding:2rem 1rem}
+
+  /* Traceability */
+  .t-step{gap:1.25rem}
+  .t-p{font-size:13px}
 
   /* Legal bar */
   .legal-bar{padding:.9rem 1.25rem;gap:.75rem}
@@ -544,9 +578,30 @@ footer{background:var(--black);border-top:1px solid var(--edge);padding:4rem 5re
   /* Hero brand — tiny screens */
   .hero-brand{margin:0 auto 1rem}
   .hero-brand-line{margin-top:.75rem;padding:0 .75rem}
-  .hero-logo{max-height:88px;width:auto;max-width:48vw}
+  .hero-logo{max-height:112px;width:auto;max-width:52vw}
   .hero-c{padding:4.5rem 1rem 2rem}
   .hero-sub{font-size:12px;letter-spacing:.02em;max-width:100%}
+
+  /* Land */
+  .land-p{font-size:13px;line-height:1.85}
+  .land-tag{font-size:11px}
+
+  /* Manifesto quote — prominent on small screens */
+  .mani-q{font-size:clamp(21px,5.8vw,32px);line-height:1.55}
+  .mani-mark{font-size:64px}
+
+  /* Traceability */
+  .t-step{gap:1.1rem;padding:1.5rem 0}
+  .t-n{min-width:36px;font-size:28px}
+  .t-h{font-size:11px}
+
+  /* Products cut body */
+  .cut-body{padding:1.5rem 1.25rem}
+  .cut-d{font-size:12px;line-height:1.85}
+
+  /* Distribution stats */
+  .stat{padding:1.75rem 1.25rem}
+  .stat-l{font-size:9px}
 
   /* Legal bar */
   .legal-bar{padding:.8rem 1rem}
