@@ -409,13 +409,14 @@ footer{background:var(--black);border-top:1px solid var(--edge);padding:4rem 5re
   /* Editorial strips */
   .ed-strip{height:45vh;min-height:260px}
 
-  /* Hero */
+  /* Hero — anchor to top so tall content never overflows the viewport */
   .hero-scroll{display:none}
-  .hero-brand{margin:0 auto 1.75rem}
-  .hero-brand-line{margin-top:.85rem;padding:0 1.5rem}
-  .hero-logo{width:clamp(180px,52vw,300px)}
-  .hero-c{padding:5rem 1.5rem 1.5rem}
-  .hero-sub{font-size:14px}
+  #hero{align-items:flex-start}
+  .hero-c{padding:5.5rem 1.5rem 2.5rem}
+  .hero-brand{margin:0 auto 1.5rem}
+  .hero-brand-line{margin-top:1rem;padding:0 1.5rem}
+  .hero-logo{max-height:120px;width:auto;max-width:55vw}
+  .hero-sub{font-size:14px;max-width:100%}
 
   /* Manifesto watermark — smaller on mobile */
   .mani-bg{font-size:clamp(60px,15vw,120px)}
@@ -471,10 +472,10 @@ footer{background:var(--black);border-top:1px solid var(--edge);padding:4rem 5re
   .cert-s{letter-spacing:.06em}
 
   /* Hero brand */
-  .hero-brand{margin:0 auto 1.5rem}
-  .hero-brand-line{margin-top:.75rem;padding:0 1rem}
-  .hero-logo{width:clamp(160px,48vw,240px)}
-  .hero-c{padding:4.5rem 1.25rem 1rem}
+  .hero-brand{margin:0 auto 1.25rem}
+  .hero-brand-line{margin-top:.85rem;padding:0 1rem}
+  .hero-logo{max-height:105px;width:auto;max-width:52vw}
+  .hero-c{padding:5rem 1.25rem 2rem}
 
   /* Stronger overlays for mobile readability */
   .hero-fade{background:radial-gradient(ellipse at 50% 60%,transparent 15%,rgba(4,4,4,.9) 100%),linear-gradient(to bottom,rgba(4,4,4,.8) 0%,rgba(4,4,4,.05) 35%,rgba(4,4,4,.97) 100%)}
@@ -541,11 +542,11 @@ footer{background:var(--black);border-top:1px solid var(--edge);padding:4rem 5re
   .foot-logo{letter-spacing:.35em}
 
   /* Hero brand — tiny screens */
-  .hero-brand{margin:0 auto 1.25rem}
-  .hero-brand-line{margin-top:.6rem;padding:0 .85rem}
-  .hero-logo{width:clamp(130px,42vw,190px)}
-  .hero-c{padding:4rem 1rem 1rem}
-  .hero-sub{font-size:12px;letter-spacing:.02em}
+  .hero-brand{margin:0 auto 1rem}
+  .hero-brand-line{margin-top:.75rem;padding:0 .75rem}
+  .hero-logo{max-height:88px;width:auto;max-width:48vw}
+  .hero-c{padding:4.5rem 1rem 2rem}
+  .hero-sub{font-size:12px;letter-spacing:.02em;max-width:100%}
 
   /* Legal bar */
   .legal-bar{padding:.8rem 1rem}
