@@ -251,7 +251,8 @@ h2.ttl em{font-style:italic;color:var(--gold-lo)}
 .cut-tag{font-size:8px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:500}
 .cut-name{font-family:var(--serif);font-size:28px;font-weight:300;color:var(--text);margin-bottom:.2rem;line-height:1.14;letter-spacing:.01em}
 .cut-sub{font-size:10px;letter-spacing:.18em;color:var(--mute);margin-bottom:0;text-transform:uppercase}
-.cut-d{font-size:12px;line-height:1.92;color:var(--mute);margin-top:1rem}
+.cut-d{font-size:12px;line-height:1.92;color:var(--mute);margin-top:1rem;max-height:0;opacity:0;overflow:hidden;transition:max-height .45s var(--spring),opacity .35s ease}
+.cut:hover .cut-d{max-height:200px;opacity:1}
 
 /* ── CERTS ── */
 #certs{background:var(--dark);padding:7rem 5rem}
