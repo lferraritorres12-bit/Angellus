@@ -82,6 +82,10 @@ nav.on{padding:1.1rem 5rem;background:rgba(5,5,5,.94);backdrop-filter:blur(24px)
 .mob.on{opacity:1;pointer-events:all}
 .mob a{font-family:var(--serif);font-size:clamp(32px,6vw,54px);font-weight:300;color:var(--text);letter-spacing:.04em;transition:color .3s}
 .mob a:hover{color:var(--gold)}
+.mob-lang{display:flex;align-items:center;border:.5px solid rgba(196,151,63,.35);border-radius:2px;overflow:hidden;margin-top:.5rem}
+.mob-lang-btn{font-size:12px;letter-spacing:.22em;color:var(--mute);text-transform:uppercase;padding:10px 22px;font-family:var(--sans);font-weight:400;transition:all .25s;line-height:1;background:none;border:none}
+.mob-lang-btn.on{color:var(--black);background:var(--gold)}
+.mob-lang-div{width:.5px;height:22px;background:rgba(196,151,63,.25)}
 
 /* ── REVEAL ── */
 .rv{opacity:0;transform:translateY(34px);transition:opacity .95s var(--spring),transform .95s var(--spring)}
@@ -629,6 +633,11 @@ footer{background:var(--black);border-top:1px solid var(--edge);padding:4rem 5re
   <a href="#products" data-i18n="nav_products" onclick="cmob()">Products</a>
   <a href="#dist" data-i18n="nav_dist" onclick="cmob()">Distribution</a>
   <a href="#contact" data-i18n="nav_contact" onclick="cmob()">Contact</a>
+  <div class="mob-lang" id="mobLang">
+    <button class="mob-lang-btn on" id="mobLangEn" onclick="setLang('en')">EN</button>
+    <span class="mob-lang-div"></span>
+    <button class="mob-lang-btn" id="mobLangDe" onclick="setLang('de')">DE</button>
+  </div>
 </div>
 
 <!-- NAV -->
@@ -1404,6 +1413,8 @@ const tx={
 function setLang(l){
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('on'));
   document.querySelector(`.lang-btn[onclick*="'${l}'"]`).classList.add('on');
+  document.querySelectorAll('.mob-lang-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelector(`.mob-lang-btn[onclick*="'${l}'"]`).classList.add('on');
   const d=tx[l];
   document.querySelectorAll('[data-i18n]').forEach(el=>{
     const k=el.dataset.i18n;
