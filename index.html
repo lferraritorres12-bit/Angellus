@@ -1414,6 +1414,8 @@ const tx={
   }
 };
 
+document.addEventListener('DOMContentLoaded',()=>setLang('en'));
+
 function setLang(l){
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('on'));
   document.querySelector(`.lang-btn[onclick*="'${l}'"]`).classList.add('on');
